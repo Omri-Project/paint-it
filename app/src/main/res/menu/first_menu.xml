@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuSettings"
+        android:orderInCategory="100"
+        android:title="Settings" />
+    <item
+        android:id="@+id/menuRules"
+        android:orderInCategory="200"
+        android:title="Rules" />
+    <item
+        android:id="@+id/menuShare"
+        android:orderInCategory="200"
+        android:title="Share" />
+    <item
+        android:id="@+id/menuContact"
+        android:orderInCategory="200"
+        android:title="Contact Us" />
+</menu>
