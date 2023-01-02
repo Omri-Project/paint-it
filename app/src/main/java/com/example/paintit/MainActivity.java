@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
             if (intent != null){
-                intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");//
+                intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");
                 startActivity(Intent.createChooser(intent,"Share with"));
             }
         } else {
@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-//    public void goToGallery (View view){
-//        intent = new Intent(this, GalleryActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+    public void goToGallery (View view){
+        intent = new Intent(this, GalleryActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
