@@ -1,34 +1,41 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="Sounds">
 
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+        <SwitchPreferenceCompat
+            app:key="sound_effects"
+            app:title="Sound Effects"
             app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
+        <SwitchPreferenceCompat
+            app:key="vibration"
+            app:title="Vibrations"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:key="timer"
+            app:title="Timer"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="Display">
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
+            app:key="dark_mode"
+            app:title="Dark Mode"
+            app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            app:key="highlight_square"
+            app:title="Highlight Active Squares"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:key="change_colour"
+            app:title="Change Colours Automatically"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
