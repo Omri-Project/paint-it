@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-//    public void goToGallery (View view){
-//        intent = new Intent(this, GalleryActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
+    public void goToGallery (View view){
+        intent = new Intent(this, GalleryActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

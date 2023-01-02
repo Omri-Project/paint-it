@@ -10,6 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PaintIt">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".GalleryActivity"
             android:exported="false">
             <meta-data
