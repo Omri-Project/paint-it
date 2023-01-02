@@ -24,9 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
         Switch s5 = findViewById(R.id.switchHighlight);
         Switch s6 = findViewById(R.id.switchChange);
 
-        s1.setChecked(true);
-        s3.setChecked(true);
-        s5.setChecked(true);
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

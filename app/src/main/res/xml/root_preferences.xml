@@ -6,11 +6,13 @@
         <SwitchPreferenceCompat
             app:key="sound_effects"
             app:title="Sound Effects"
-            app:useSimpleSummaryProvider="true" />
+            app:defaultValue="true"
+            app:useSimpleSummaryProvider="true"/>
 
         <SwitchPreferenceCompat
             app:key="vibration"
             app:title="Vibrations"
+            app:defaultValue="true"
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
@@ -30,11 +32,13 @@
         <SwitchPreferenceCompat
             app:key="highlight_square"
             app:title="Highlight Active Squares"
+            app:defaultValue="true"
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
             app:key="change_colour"
             app:title="Change Colours Automatically"
+            app:defaultValue="true"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
