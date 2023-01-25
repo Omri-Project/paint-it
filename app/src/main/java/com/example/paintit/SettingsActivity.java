@@ -1,6 +1,8 @@
 package com.example.paintit;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,15 +16,29 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch switchView;
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        Switch s1 = findViewById(R.id.switchSound);
-        Switch s2 = findViewById(R.id.switchVibrate);
-        Switch s3 = findViewById(R.id.switchDark);
-        Switch s4 = findViewById(R.id.switchTimer);
-        Switch s5 = findViewById(R.id.switchHighlight);
-        Switch s6 = findViewById(R.id.switchChange);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        getSupportFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
+
+
+        ActionBar menu = getSupportActionBar();
+        menu.setDisplayShowHomeEnabled(true);
+        menu.setDisplayHomeAsUpEnabled(true);
 
 
     }

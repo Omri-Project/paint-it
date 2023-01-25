@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if ((!username.getText().equals(""))&(!password.getText().equals(""))){
-                    db.rawQuery("SELECT * FROM "+ hlp.TABLE_NAME + " WHERE " + hlp.USERNAME + " = "+ username.getText(),);
+ //                   db.rawQuery("SELECT * FROM "+ hlp.TABLE_NAME + " WHERE " + hlp.USERNAME + " = "+ username.getText(),);
                     if (1 ==1){
                     } else {
                         Toast.makeText(LoginActivity.this, "Incorrect details, fix them or create a new account", Toast.LENGTH_LONG).show();

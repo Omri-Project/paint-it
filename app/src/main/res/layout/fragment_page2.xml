@@ -8,7 +8,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-<<<<<<< HEAD
         android:text="My Drawings"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
 
@@ -17,8 +16,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"/>
-=======
-        android:text="meow" />
->>>>>>> 1255b0c99372d676143e876835106627fc624f65
 
 </FrameLayout>
