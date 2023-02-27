@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
     public void goToGallery (View view){
-        intent = new Intent(this, GalleryActivity.class);
+        intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
