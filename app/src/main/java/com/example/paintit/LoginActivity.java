@@ -42,12 +42,18 @@ public class LoginActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (exist != -1) {
+                if ((long) exist != -1) {
                     startActivity(in);
                     finish();
                 }
-                else if (username == null || helperDB.ifExist(username.getText().toString() , password.getText().toString()) == -1 && password == null || helperDB.ifExist(username.getText().toString() , password.getText().toString()) == -1){
+                else if (username == null || helperDB.ifExist(username.getText().toString() ,
+                        password.getText().toString()) == -1 || password == null || helperDB.ifExist(username.getText().toString() ,
+                        password.getText().toString()) == -1){
                     Toast.makeText(LoginActivity.this, "Wrong Username Or Password Or User Doesn't Exist", Toast.LENGTH_SHORT).show();
+                }
+
+                else {
+                    Toast.makeText(LoginActivity.this, "Im Stupid AF", Toast.LENGTH_SHORT).show();
                 }
             }
         });
