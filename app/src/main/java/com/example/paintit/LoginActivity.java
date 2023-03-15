@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.Button;
@@ -35,26 +36,29 @@ public class LoginActivity extends AppCompatActivity {
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(LoginActivity.this , GalleryActivity.class);
         Intent in1 = new Intent(LoginActivity.this , SignUp.class);
-        String checkUser = username.getText().toString();
-        String checkPass = password.getText().toString();
-        int exist = Integer.valueOf(String.valueOf(helperDB.ifExist(checkUser , checkPass)));
+        String checkUser = username.getText().toString().trim();
+        String checkPass = password.getText().toString().trim();
+        Log.d("Evermore", "check 0");
+        int exist = (int) helperDB.ifExist(checkUser , checkPass);
+        Log.d("Evermore", "check 1");
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String ex = ""+exist;
+                Toast.makeText(LoginActivity.this, ex, Toast.LENGTH_SHORT).show();
                 if ((long) exist != -1) {
+                    Log.d("Evermore", "check 2");
                     startActivity(in);
                     finish();
                 }
                 else if (username == null || helperDB.ifExist(username.getText().toString() ,
-                        password.getText().toString()) == -1 || password == null || helperDB.ifExist(username.getText().toString() ,
+                        password.getText().toString()) == -1 && password == null || helperDB.ifExist(username.getText().toString() ,
                         password.getText().toString()) == -1){
+                    Log.d("Evermore", "check 3");
                     Toast.makeText(LoginActivity.this, "Wrong Username Or Password Or User Doesn't Exist", Toast.LENGTH_SHORT).show();
                 }
 
-                else {
-                    Toast.makeText(LoginActivity.this, "Im Stupid AF", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
