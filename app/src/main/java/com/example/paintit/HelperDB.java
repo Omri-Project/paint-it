@@ -53,19 +53,31 @@ public class HelperDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String order = ID + " ASC ";
         String[] args = new String[]{name, password};
-        try{
-            Cursor cursor = db.rawQuery(" SELECT * FROM " + USERS + "where" +  USERNAME + " = " + name, args);
-            cursor.moveToFirst();
-            if (cursor.getCount() > 0){
+        Cursor cursor = db.query(USERS, USER_COLUMN, USERNAME + " = ? AND " + PASSWORD + " = ? ", args, null, null, order);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(ID));
+            return id;
+        }
+        return -1;
+    }
+
+    public String getAllUserDetails(){
+        String details = "";
+        String allDetails = "";
+        String order = ID + " ASC ";
+        Cursor cursor = getReadableDatabase().query(USERS, USER_COLUMN, null, null, null, null, order);
+        if (cursor.getCount() > 0){
+            while (cursor.moveToNext()){
+                String username = cursor.getString(cursor.getColumnIndexOrThrow(USERNAME));
+                String password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD));
                 long id = cursor.getLong(cursor.getColumnIndexOrThrow(ID));
-                return id;
+                details = " ID: " + id + " Username: " + username + " Password: " + password + " ";
+                allDetails += details;
             }
         }
-        catch (Exception e){
 
-        }
-
-        return -1;
+        return allDetails;
     }
 
 //    public long ifExist(String name, String password) {

@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Button start;
     EditText username, password;
-    TextView create_acc;
+    TextView create_acc, show_lv;
     HelperDB helperDB;
 
     @Override
@@ -32,33 +32,35 @@ public class LoginActivity extends AppCompatActivity {
         start = findViewById(R.id.start_btn);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
+        show_lv = findViewById(R.id.show_lv);
         create_acc = findViewById(R.id.create_acc);
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(LoginActivity.this , GalleryActivity.class);
         Intent in1 = new Intent(LoginActivity.this , SignUp.class);
         String checkUser = username.getText().toString().trim();
         String checkPass = password.getText().toString().trim();
-        Log.d("Evermore", "check 0");
-        int exist = (int) helperDB.ifExist(checkUser , checkPass);
-        Log.d("Evermore", "check 1");
+        int exist = (int) helperDB.ifExist(checkUser, checkPass);
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String ex = ""+exist;
                 Toast.makeText(LoginActivity.this, ex, Toast.LENGTH_SHORT).show();
-                if ((long) exist != -1) {
-                    Log.d("Evermore", "check 2");
+                if ((long) exist == -1) {
                     startActivity(in);
                     finish();
                 }
-                else if (username == null || helperDB.ifExist(username.getText().toString() ,
-                        password.getText().toString()) == -1 && password == null || helperDB.ifExist(username.getText().toString() ,
-                        password.getText().toString()) == -1){
-                    Log.d("Evermore", "check 3");
+                else if (username == null || helperDB.ifExist(username.getText().toString(), password.getText().toString()) == -1 && password == null){
                     Toast.makeText(LoginActivity.this, "Wrong Username Or Password Or User Doesn't Exist", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        show_lv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(LoginActivity.this, helperDB.getAllUserDetails(), Toast.LENGTH_SHORT).show();
             }
         });
 

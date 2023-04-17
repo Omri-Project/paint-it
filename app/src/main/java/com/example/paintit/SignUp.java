@@ -41,10 +41,16 @@ public class SignUp extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                helperDB.addNewUser(username.getText().toString() , password.getText().toString() , email.getText().toString());
-                Toast.makeText(SignUp.this, "Successfully Added New User", Toast.LENGTH_SHORT).show();
-                startActivity(in1);
-                finish();
+                if (helperDB.ifExist(username.getText().toString(), password.getText().toString()) != (long) -1){
+                    helperDB.addNewUser(username.getText().toString() , password.getText().toString() , email.getText().toString());
+                    Toast.makeText(SignUp.this, "Successfully Added New User", Toast.LENGTH_SHORT).show();
+                    startActivity(in1);
+                    finish();
+                }
+                else {
+                    Toast.makeText(SignUp.this, "Username already exists, Please Try with a different name", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

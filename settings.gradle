@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Paint It"
 include ':app'
+include ':dynamicfeature'
