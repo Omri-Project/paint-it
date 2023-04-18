@@ -1,0 +1,78 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/stats_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CAD1B1"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/stats_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="YOU'VE WON!"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/stats_container"
+            android:layout_width="match_parent"
+            android:layout_marginTop="100dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Time:"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/time_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="total_time_placeholder"
+                android:layout_marginBottom="66dp"/>
+
+            <TextView
+                android:id="@+id/squares_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Squares Painted:"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/squares_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="squares_painted_placeholder"/>
+
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/home_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Return to Home Page"
+        android:textColor="#CAD1B1"
+        android:backgroundTint="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="116dp"/>
+
+</LinearLayout>

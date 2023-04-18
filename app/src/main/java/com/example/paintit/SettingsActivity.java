@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 public class SettingsActivity extends AppCompatActivity {
     Intent intent;
     private Switch switchView;
+    MediaPlayer mediaPlayer;
 
     @Override
     public void onBackPressed() {
@@ -34,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
+        mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
 
 
         ActionBar menu = getSupportActionBar();
@@ -52,6 +55,8 @@ public class SettingsActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.menuBack) {
             intent = new Intent(this, MainActivity.class);
+            mediaPlayer.start();
+            releaseInstance();
             startActivity(intent);
             finish();
         }

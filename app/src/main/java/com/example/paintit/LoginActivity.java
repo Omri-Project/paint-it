@@ -7,9 +7,12 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseIntArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText username, password;
     TextView create_acc, show_lv;
     HelperDB helperDB;
+    Intent intent;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,20 +42,38 @@ public class LoginActivity extends AppCompatActivity {
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(LoginActivity.this , GalleryActivity.class);
         Intent in1 = new Intent(LoginActivity.this , SignUp.class);
-        String checkUser = username.getText().toString().trim();
-        String checkPass = password.getText().toString().trim();
-        int exist = (int) helperDB.ifExist(checkUser, checkPass);
+        mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
+
+        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                mediaPlayer.start();
+                releaseInstance();
+            }
+        });
+
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                mediaPlayer.start();
+                releaseInstance();
+            }
+        });
+
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ex = ""+exist;
-                Toast.makeText(LoginActivity.this, ex, Toast.LENGTH_SHORT).show();
-                if ((long) exist == -1) {
+                mediaPlayer.start();
+                releaseInstance();
+                String checkUser = String.valueOf(username.getText());
+                String checkPass = String.valueOf(password.getText());
+                if (helperDB.ifExist(checkUser, checkPass)) {
+                    Toast.makeText(LoginActivity.this, "Entered Successfully", Toast.LENGTH_SHORT).show();
                     startActivity(in);
                     finish();
                 }
-                else if (username == null || helperDB.ifExist(username.getText().toString(), password.getText().toString()) == -1 && password == null){
+                else{
                     Toast.makeText(LoginActivity.this, "Wrong Username Or Password Or User Doesn't Exist", Toast.LENGTH_SHORT).show();
                 }
 
@@ -60,6 +83,8 @@ public class LoginActivity extends AppCompatActivity {
         show_lv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer.start();
+                releaseInstance();
                 Toast.makeText(LoginActivity.this, helperDB.getAllUserDetails(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -68,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
         create_acc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer.start();
+                releaseInstance();
                 startActivity(in1);
                 finish();
             }
@@ -75,55 +102,42 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.first_menu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menuSettings){
+            mediaPlayer.start();
+            releaseInstance();
+            intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            finish();
+        } else  if (id == R.id.menuRules){
+            mediaPlayer.start();
+            releaseInstance();
+            intent = new Intent(this, RulesActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.menuShare){
+            mediaPlayer.start();
+            releaseInstance();
+            intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            if (intent != null){
+                intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");
+                startActivity(Intent.createChooser(intent,"Share with"));
+            }
+        } else {
+            mediaPlayer.start();
+            releaseInstance();
+            Toast.makeText(LoginActivity.this,"This option is unavailable right now",Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
+
 }
-
-
-
-
-//    Button login = findViewById(R.id.login);
-//    Button createAcc = findViewById(R.id.createAcc);
-//    EditText username = findViewById(R.id.username);
-//    EditText password = findViewById(R.id.password);
-//    HelperDB hlp;
-//    SQLiteDatabase db;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_login);
-//        hlp = new HelperDB(LoginActivity.this);
-//        db = hlp.getWritableDatabase();
-//        db.close();
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if ((!username.getText().equals(""))&(!password.getText().equals(""))){
-// //                   db.rawQuery("SELECT * FROM "+ hlp.TABLE_NAME + " WHERE " + hlp.USERNAME + " = "+ username.getText(),);
-//                    if (1 ==1){
-//                    } else {
-//                        Toast.makeText(LoginActivity.this, "Incorrect details, fix them or create a new account", Toast.LENGTH_LONG).show();
-//                    }
-//                } else {
-//                    Toast.makeText(LoginActivity.this, "Insert details or create a new account", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
-//        createAcc.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                ContentValues cv = new ContentValues();
-//                Cursor c = db.query("Users", null, null, null, null, null, null);
-//                c.moveToFirst();
-//                int i = 0;
-//                while (!c.isAfterLast()){
-//                    i++;
-//                    c.moveToNext();
-//                }
-//                cv.put(hlp.ID, ""+i);
-//                cv.put(hlp.USERNAME, String.valueOf(username.getText()));
-//                cv.put(hlp.PASSWORD, String.valueOf(password.getText()));
-//                db.insert(hlp.TABLE_NAME, null, cv);
-//                db.close();
-//
-//            }
-//        });
-//    }

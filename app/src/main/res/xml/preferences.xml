@@ -16,12 +16,6 @@
             app:defaultValue="true"
             app:useSimpleSummaryProvider="true" />
 
-        <SwitchPreferenceCompat
-            app:key="timer"
-            app:title="Timer"
-            app:defaultValue="false"
-            app:useSimpleSummaryProvider="true" />
-
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Display">

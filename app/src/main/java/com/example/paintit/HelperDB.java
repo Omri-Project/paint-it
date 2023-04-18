@@ -28,6 +28,18 @@ public class HelperDB extends SQLiteOpenHelper {
 
     private static final String[] USER_COLUMN = {ID, USERNAME, PASSWORD, EMAIL};
 
+    // Statistics
+
+    private static final String TABLE_STATISTICS = "statistics";
+    private static final String COLUMN_ID = "_id";
+    private static final String COLUMN_TIME = "time";
+    private static final String COLUMN_SQUARES_PAINTED = "squares_painted";
+
+    private static final String STATS_TABLE = "CREATE TABLE " + TABLE_STATISTICS + " (" +
+            COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_TIME + " INTEGER NOT NULL, " +
+            COLUMN_SQUARES_PAINTED + " INTEGER NOT NULL);";
+
     public HelperDB(Context context) {
 
         super(context, DB_NAME, null, DB_VERSION);
@@ -49,18 +61,19 @@ public class HelperDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public long ifExist(String name, String password) {
+
+    public boolean ifExist(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String order = ID + " ASC ";
-        String[] args = new String[]{name, password};
-        Cursor cursor = db.query(USERS, USER_COLUMN, USERNAME + " = ? AND " + PASSWORD + " = ? ", args, null, null, order);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            long id = cursor.getLong(cursor.getColumnIndexOrThrow(ID));
-            return id;
-        }
-        return -1;
+        String query = "SELECT * FROM users WHERE username=? AND password=?";
+        String[] selectionArgs = {username, password};
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        db.close();
+        return exists;
     }
+
+
 
     public String getAllUserDetails(){
         String details = "";
@@ -80,21 +93,32 @@ public class HelperDB extends SQLiteOpenHelper {
         return allDetails;
     }
 
-//    public long ifExist(String name, String password) {
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        String order = ID + " ASC ";
-//        String[] args = new String[]{name, password};
-//        Cursor cursor = db.query(TABLE_NAME, USER_COLUMN, USERNAME + " = ? AND " + PASSWORD + " = ? AND " + EMAIL + " = ? ", args, null, null, order);
-//        cursor.moveToFirst();
-//        Log.d("Evermore", "check 1");
-//        while (!cursor.isAfterLast()) {
-//            Log.d("Evermore", "check 2");
-//            long id = cursor.getLong(cursor.getColumnIndexOrThrow(ID));
-//            return id;
-//        }
-//        Log.d("Evermore", "check 3");
-//        return -1;
-//    }
+    public void deleteUser(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = "id = ?";
+        String[] selectionArgs = {String.valueOf(userId)};
+        db.delete("users", selection, selectionArgs);
+        db.close();
+    }
+
+    public void addNewStatistic(long time, int squaresPainted) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(HelperDB.COLUMN_TIME, time);
+        values.put(HelperDB.COLUMN_SQUARES_PAINTED, squaresPainted);
+        db.insert(HelperDB.TABLE_STATISTICS, null, values);
+        db.close();
+    }
+
+    public void deleteAllStats() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(HelperDB.TABLE_STATISTICS, null, null);
+        db.close();
+    }
+
+
 
 
     @Override
