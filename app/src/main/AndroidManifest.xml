@@ -15,9 +15,6 @@
             android:name=".SignUp"
             android:exported="false" />
         <activity
-            android:name=".SigninActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginActivity"
             android:exported="false">
             <meta-data

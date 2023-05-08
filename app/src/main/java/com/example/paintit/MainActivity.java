@@ -3,6 +3,7 @@ package com.example.paintit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,53 +11,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends TouchDetector {
     Intent intent;
     MediaPlayer mediaPlayer;
+    private boolean isLoggedIn = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.first_menu,menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menuSettings){
-            intent = new Intent(this, SettingsActivity.class);
-            mediaPlayer.start();
-            releaseInstance();
-            startActivity(intent);
-            finish();
-        } else  if (id == R.id.menuRules){
-            intent = new Intent(this, RulesActivity.class);
-            mediaPlayer.start();
-            releaseInstance();
-            startActivity(intent);
-            finish();
-        } else if (id == R.id.menuShare){
-            mediaPlayer.start();
-            releaseInstance();
-            intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            if (intent != null){
-                intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");
-                startActivity(Intent.createChooser(intent,"Share with"));
-            }
+        SharedPreferences preferences1 = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean soundsEnabled = preferences1.getBoolean("sounds_enabled", true);
+
+        if (soundsEnabled) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
-            mediaPlayer.start();
-            releaseInstance();
-            Toast.makeText(MainActivity.this,"This option is unavailable right now",Toast.LENGTH_SHORT).show();
+            mediaPlayer = null;
         }
-        return true;
+        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        isLoggedIn = preferences.getBoolean("isLoggedIn", false);
     }
+
     public void goToGallery (View view){
-        intent = new Intent(this, LoginActivity.class);
+        if (isLoggedIn == true){
+            intent = new Intent(this, GalleryActivity.class);
+        }
+        else {
+            intent = new Intent(this, LoginActivity.class);
+        }
         mediaPlayer.start();
         startActivity(intent);
         finish();

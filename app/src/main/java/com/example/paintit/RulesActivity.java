@@ -3,17 +3,33 @@ package com.example.paintit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-public class RulesActivity extends AppCompatActivity {
+public class RulesActivity extends TouchDetector {
     Intent intent;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rules);
+        intent  = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+
+        if (soundsEnabled) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
+        } else {
+            mediaPlayer = null;
+        }
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -24,9 +40,9 @@ public class RulesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuBack) {
-            intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            mediaPlayer.start();
+            this.finish();
+
         }
         return true;
     }

@@ -3,6 +3,7 @@ package com.example.paintit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SignUp extends AppCompatActivity {
+public class SignUp extends TouchDetector {
 
     Button start;
     EditText username, password, email;
@@ -34,8 +35,14 @@ public class SignUp extends AppCompatActivity {
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(SignUp.this , LoginActivity.class);
         Intent in1 = new Intent(SignUp.this , GalleryActivity.class);
-        mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
+        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
 
+        if (soundsEnabled) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
+        } else {
+            mediaPlayer = null;
+        }
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -82,44 +89,5 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.first_menu,menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menuSettings){
-            mediaPlayer.start();
-            releaseInstance();
-            intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            finish();
-        } else  if (id == R.id.menuRules){
-            mediaPlayer.start();
-            releaseInstance();
-            intent = new Intent(this, RulesActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (id == R.id.menuShare){
-            mediaPlayer.start();
-            releaseInstance();
-            intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            if (intent != null){
-                mediaPlayer.start();
-                releaseInstance();
-                intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");
-                startActivity(Intent.createChooser(intent,"Share with"));
-            }
-        } else {
-            mediaPlayer.start();
-            releaseInstance();
-            Toast.makeText(SignUp.this,"This option is unavailable right now",Toast.LENGTH_SHORT).show();
-        }
-        return true;
     }
 }

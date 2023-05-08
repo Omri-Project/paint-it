@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,10 +15,11 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class GalleryActivity extends AppCompatActivity {
+public class GalleryActivity extends TouchDetector {
 
     Intent intent;
     MediaPlayer mediaPlayer;
+    Boolean isLoggedIn = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,15 @@ public class GalleryActivity extends AppCompatActivity {
         ViewPager2 viewPager2 = findViewById(R.id.view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
-        mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
+        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+
+        if (soundsEnabled) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
+        } else {
+            mediaPlayer = null;
+        }
+
 
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
@@ -47,6 +57,12 @@ public class GalleryActivity extends AppCompatActivity {
         return true;
     }
     @Override
+    public boolean onMenuOpened(int featureId, Menu menu){
+        mediaPlayer.start();
+        releaseInstance();
+        return true;
+    }
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuSettings){
@@ -54,13 +70,11 @@ public class GalleryActivity extends AppCompatActivity {
             mediaPlayer.start();
             releaseInstance();
             startActivity(intent);
-            finish();
         } else  if (id == R.id.menuRules){
             intent = new Intent(this, RulesActivity.class);
             mediaPlayer.start();
             releaseInstance();
             startActivity(intent);
-            finish();
         } else if (id == R.id.menuShare){
             intent = new Intent(Intent.ACTION_SEND);
             mediaPlayer.start();
@@ -70,6 +84,16 @@ public class GalleryActivity extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");
                 startActivity(Intent.createChooser(intent,"Share with"));
             }
+        } else if (id == R.id.logout) {
+            mediaPlayer.start();
+            releaseInstance();
+            isLoggedIn = false;
+            SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isLoggedIn", isLoggedIn);
+            editor.apply();
+            Intent in = new Intent(GalleryActivity.this , LoginActivity.class);
+            startActivity(in);
         } else {
             mediaPlayer.start();
             releaseInstance();

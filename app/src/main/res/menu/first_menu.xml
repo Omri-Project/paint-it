@@ -16,4 +16,8 @@
         android:id="@+id/menuContact"
         android:orderInCategory="200"
         android:title="Contact Us" />
+    <item
+        android:id="@+id/logout"
+        android:orderInCategory="200"
+        android:title="Log Out" />
 </menu>

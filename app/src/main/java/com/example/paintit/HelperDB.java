@@ -35,7 +35,7 @@ public class HelperDB extends SQLiteOpenHelper {
     private static final String COLUMN_TIME = "time";
     private static final String COLUMN_SQUARES_PAINTED = "squares_painted";
 
-    private static final String STATS_TABLE = "CREATE TABLE " + TABLE_STATISTICS + " (" +
+    private static final String STATS_TABLE = " CREATE TABLE IF NOT EXISTS " + TABLE_STATISTICS + " (" +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_TIME + " INTEGER NOT NULL, " +
             COLUMN_SQUARES_PAINTED + " INTEGER NOT NULL);";

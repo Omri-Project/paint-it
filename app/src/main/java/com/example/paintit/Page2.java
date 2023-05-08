@@ -17,11 +17,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Page2#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Page2 extends Fragment {
     GridView gridView;
     MediaPlayer mp;

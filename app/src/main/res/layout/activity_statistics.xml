@@ -14,8 +14,9 @@
         android:text="YOU'VE WON!"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="34sp"
+        android:textSize="50sp"
         android:textStyle="bold"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="16dp"/>
 
         <LinearLayout
@@ -71,6 +72,7 @@
         android:layout_height="wrap_content"
         android:text="Return to Home Page"
         android:textColor="#CAD1B1"
+        android:textSize="30sp"
         android:backgroundTint="@color/white"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="116dp"/>
