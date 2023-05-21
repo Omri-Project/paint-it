@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".GameActivity">
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:rowCount="17"
+        android:columnCount="10"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false"
+        android:useDefaultMargins="true">
+
+        <!-- Add buttons dynamically from code -->
+
+    </GridLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="always">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <!-- Add buttons dynamically from code -->
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>
+

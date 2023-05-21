@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PaintIt">
         <activity
+            android:name=".GameActivity"
+            android:exported="false" />
+        <activity
             android:name=".StatisticsActivity"
             android:exported="false" />
         <activity

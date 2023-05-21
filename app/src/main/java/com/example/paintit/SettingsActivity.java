@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends TouchDetector {
     Intent intent;
     private Switch switchView;
     MediaPlayer mediaPlayer;
