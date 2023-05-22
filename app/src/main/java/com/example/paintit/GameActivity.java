@@ -25,11 +25,15 @@ public class GameActivity extends TouchDetector {
 
     private GridLayout buttonGrid;
     MediaPlayer mediaPlayer;
-    private int numRows = 17;
-    private int numColumns = 10;
-    private int buttonSize = 100;
+    private int numRows;
+    private int numColumns;
+    private int buttonSize;
     private int[][] pixels;
+    private int[][] isColored;
     private String[] colors;
+    HorizontalScrollView colorsBar;
+    int chosenColor;
+    LinearLayout scrollBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,27 @@ public class GameActivity extends TouchDetector {
         numRows = pixels.length;
         numColumns = pixels[0].length;
         buttonGrid = findViewById(R.id.gridLayout);
+        colorsBar = findViewById(R.id.colorsBar);
+        scrollBar = new LinearLayout(this);
+        chosenColor = 0;
+        for (int i = 1; i < colors.length; i++){
+            final Button color = new Button(this);
+            color.setText(""+(i));
+            color.setBackground(getResources().getDrawable(R.drawable.circle));
+            color.setBackgroundColor(Color.parseColor(colors[i]));
+            //is clicked probably
+//            color.setTag(0);
+            color.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int numColor = Integer.parseInt((String) color.getText());
+                    if (numColor != chosenColor) {
+                        chosenColor = numColor;
+                    }
+                }
+            });
+            scrollBar.addView(color);
+        }colorsBar.addView(scrollBar);
         SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
         boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
 
@@ -76,15 +101,24 @@ public class GameActivity extends TouchDetector {
                 shape.setShape(GradientDrawable.RECTANGLE);
                 shape.setStroke(2, Color.BLACK);
                 button.setBackground(shape);
+                button.setTag((Boolean) false);
                 button.setLayoutParams(new GridLayout.LayoutParams(
                         new ViewGroup.LayoutParams(buttonSize, buttonSize)));
+                if (pixels[i][j] ==0){
+                    button.setTextColor(Color.WHITE);
+                    button.setTag(true);
+                }
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        button.setBackgroundColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())-1]));
-                        button.setTextColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())-1]));
-                        mediaPlayer.start();
-                        releaseInstance();
+                        int text = Integer.parseInt((String) button.getText());
+                        if ((chosenColor == text) && (!(Boolean)(button.getTag()))){
+                            button.setBackgroundColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())]));
+                            button.setTextColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())]));
+                            button.setTag(true);
+                            mediaPlayer.start();
+                            releaseInstance();
+                        }
                     }
                 });
                 buttonGrid.addView(button);
