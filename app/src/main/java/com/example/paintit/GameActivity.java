@@ -28,8 +28,8 @@ public class GameActivity extends TouchDetector {
     private int numRows = 17;
     private int numColumns = 10;
     private int buttonSize = 100;
-    private int[][] pixels = new int[100][100];
-    private String[] colors = new String[100];
+    private int[][] pixels;
+    private String[] colors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,6 @@ public class GameActivity extends TouchDetector {
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);
         HelperDB helperDB = new HelperDB(getApplicationContext());
-        helperDB.addPredefinedPainting();
         String pixelData = helperDB.getPaintingPixels(id);
         String colorsData = helperDB.getPaintingColors(id);
         pixels = StringToArrayAdapter.stringToArray(pixelData);
