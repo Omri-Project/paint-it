@@ -9,6 +9,14 @@ public class Timer {
         this.start = start;
         this.end = end;
     }
+    public Timer (Date start){
+        this.start = start;
+        this.end = null;
+    }
+    public Timer (){
+        this.start = null;
+        this.end = null;
+    }
 
     public Date getStart() {
         return start;

@@ -49,8 +49,7 @@ public class Page1 extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         for (int i = 0; i < drawings.length; i++){
             drawings[i] = new Drawing("Cat", 1, R.drawable.ic_launcher_background);
         }
