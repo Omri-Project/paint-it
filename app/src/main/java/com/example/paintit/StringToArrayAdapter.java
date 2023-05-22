@@ -15,18 +15,40 @@ public class StringToArrayAdapter {
     public static int[][] stringToArray(String array) {
         String[] rows = array.split(";");
         int numRows = rows.length;
-        int numColumns = rows[0].split(",").length;
+        int numColumns = 0;
+
+        if (numRows > 0) {
+            numColumns = rows[0].split(",").length;
+        }
 
         int[][] result = new int[numRows][numColumns];
         for (int i = 0; i < numRows; i++) {
             String[] values = rows[i].split(",");
             for (int j = 0; j < numColumns; j++) {
-                result[i][j] = Integer.parseInt(values[j]);
+                try {
+                    result[i][j] = Integer.parseInt(values[j]);
+                } catch (NumberFormatException e) {
+                    // Handle any potential parsing errors here
+                    // For example, you could set a default value or throw an exception
+                    e.printStackTrace();
+                }
             }
         }
 
         return result;
     }
+
+
+    public static String[] stringToColorArray (String array) {
+        int length = array.length()-array.replace(",", "").length();
+        String[] colors = new String[length];
+        int index = 0;
+        for (int i = 0; i < colors.length; i++) {
+            colors[i] = array.substring(index, array.indexOf(',', index));
+            index +=colors[i].length()+1;
+        } return colors;
+    }
+
 }
 
 

@@ -123,17 +123,56 @@ public class HelperDB extends SQLiteOpenHelper {
         String selection = PAINTING_ID + "=?";
         String[] selectionArgs = {String.valueOf(paintingId)};
 
-        Cursor cursor = db.query(PAINTING_TABLE, columns, selection, selectionArgs, null, null, null);
+        Cursor cursor = null;
+        try {
+            cursor = db.query(PAINTING_TABLE, columns, selection, selectionArgs, null, null, null);
 
-        if (cursor != null && cursor.moveToFirst()) {
-            pixels = cursor.getString(cursor.getColumnIndexOrThrow(PAINTING_PIXELS));
-            cursor.close();
+            if (cursor != null && cursor.moveToFirst()) {
+                pixels = cursor.getString(cursor.getColumnIndexOrThrow(PAINTING_PIXELS));
+            }
+        } catch (Exception e) {
+            // Handle any potential exceptions here, such as SQLiteException or IllegalArgumentException
+            // Log the error or perform appropriate error handling
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
         }
-
-        db.close();
 
         return pixels;
     }
+
+
+    public String getPaintingColors(int paintingId) {
+        String colors = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] columns = {PAINTING_COLORS};
+        String selection = PAINTING_ID + "=?";
+        String[] selectionArgs = {String.valueOf(paintingId)};
+
+        Cursor cursor = null;
+        try {
+            cursor = db.query(PAINTING_TABLE, columns, selection, selectionArgs, null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                colors = cursor.getString(cursor.getColumnIndexOrThrow(PAINTING_COLORS));
+            }
+        } catch (Exception e) {
+            // Handle any potential exceptions here
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return colors;
+    }
+
 
 
 

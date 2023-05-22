@@ -61,9 +61,10 @@ public class Page1 extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(getActivity(), "" + (position+1), Toast.LENGTH_SHORT).show();
                 Intent intent1 = new Intent(getActivity(), GameActivity.class);
-                intent1.getIntExtra("id", position);
+                intent1.putExtra("id", (position+1));
                 startActivity(intent1);
             }
         });

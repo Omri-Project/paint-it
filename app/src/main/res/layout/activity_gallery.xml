@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Created with love by Magal\u2764 Omri &amp; \u2764"
+            android:text="Created with love by Magal\u2764 &amp; Omri\u2764"
             android:textSize="14sp"
             />
 

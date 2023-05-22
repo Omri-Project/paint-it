@@ -2,8 +2,10 @@ package com.example.paintit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -19,12 +21,15 @@ import android.widget.Toast;
 import com.example.paintit.R;
 import com.example.paintit.StringToArrayAdapter;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends TouchDetector {
 
     private GridLayout buttonGrid;
+    MediaPlayer mediaPlayer;
     private int numRows = 17;
     private int numColumns = 10;
     private int buttonSize = 100;
+    private int[][] pixels = new int[100][100];
+    private String[] colors = new String[100];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +40,20 @@ public class GameActivity extends AppCompatActivity {
         HelperDB helperDB = new HelperDB(getApplicationContext());
         helperDB.addPredefinedPainting();
         String pixelData = helperDB.getPaintingPixels(id);
-        int[][] pixels = StringToArrayAdapter.stringToArray(pixelData);
+        String colorsData = helperDB.getPaintingColors(id);
+        pixels = StringToArrayAdapter.stringToArray(pixelData);
+        colors = StringToArrayAdapter.stringToColorArray(colorsData);
         numRows = pixels.length;
         numColumns = pixels[0].length;
         buttonGrid = findViewById(R.id.gridLayout);
+        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+
+        if (soundsEnabled) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
+        } else {
+            mediaPlayer = null;
+        }
 
         // Update the grid layout to use the specified number of rows and columns
         buttonGrid.setRowCount(numRows);
@@ -67,8 +82,10 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        button.setBackgroundColor(Color.BLACK);
-                        button.setTextColor(Color.BLACK);
+                        button.setBackgroundColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())-1]));
+                        button.setTextColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())-1]));
+                        mediaPlayer.start();
+                        releaseInstance();
                     }
                 });
                 buttonGrid.addView(button);
