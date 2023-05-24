@@ -19,8 +19,18 @@ public class MainActivity extends TouchDetector {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        HelperDB helperDB = new HelperDB(getApplicationContext());
         SharedPreferences preferences1 = getSharedPreferences("my_prefs", MODE_PRIVATE);
         boolean soundsEnabled = preferences1.getBoolean("sounds_enabled", true);
+
+        SharedPreferences preferencess = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean codeExecuted = preferencess.getBoolean("code_executed", false);
+        if (!codeExecuted) {
+            SharedPreferences.Editor editor = preferencess.edit();
+            editor.putBoolean("code_executed", true);
+            helperDB.addPredefinedPainting();
+            editor.apply();
+        }
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);

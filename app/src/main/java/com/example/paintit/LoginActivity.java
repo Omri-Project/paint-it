@@ -79,6 +79,7 @@ public class LoginActivity extends TouchDetector {
                 String checkPass = String.valueOf(password.getText());
                 if (helperDB.ifExist(checkUser, checkPass)) {
                     isLoggedIn = true;
+
                     Toast.makeText(LoginActivity.this, "Entered Successfully", Toast.LENGTH_SHORT).show();
                     SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
@@ -88,7 +89,7 @@ public class LoginActivity extends TouchDetector {
                     finish();
                 }
                 else{
-                    Toast.makeText(LoginActivity.this, "Wrong Username Or Password Or User Doesn't Exist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Wrong Details Or User Doesn't Exist", Toast.LENGTH_SHORT).show();
                 }
 
             }
