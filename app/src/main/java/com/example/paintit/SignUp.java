@@ -22,6 +22,7 @@ public class SignUp extends TouchDetector {
     HelperDB helperDB;
     Intent intent;
     MediaPlayer mediaPlayer;
+    Boolean isLoggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +73,23 @@ public class SignUp extends TouchDetector {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (helperDB.ifExist(username.getText().toString(), password.getText().toString()) == false){
+
+                if (username.getText().toString().equals("") || username.getText().toString().equals(null)
+                        || password.getText().toString().equals("") || password.getText().toString().equals(null)
+                        || email.getText().toString().equals("") || email.getText().toString().equals(null)) {
+                    mediaPlayer.start();
+                    releaseInstance();
+                    Toast.makeText(SignUp.this, "Please Fill All Required Tabs", Toast.LENGTH_SHORT).show();
+                }
+
+                else if (helperDB.ifExist(username.getText().toString(), password.getText().toString()) == false){
                     helperDB.addNewUser(username.getText().toString() , password.getText().toString() , email.getText().toString());
                     Toast.makeText(SignUp.this, "Successfully Added New User", Toast.LENGTH_SHORT).show();
+                    isLoggedIn = true;
+                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("isLoggedIn", isLoggedIn);
+                    editor.apply();
                     startActivity(in1);
                     finish();
                     mediaPlayer.start();
@@ -83,7 +98,7 @@ public class SignUp extends TouchDetector {
                 else {
                     mediaPlayer.start();
                     releaseInstance();
-                    Toast.makeText(SignUp.this, "Username already exists, Please Try with a different name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Username Already Exists, Please Try With a Different Name", Toast.LENGTH_SHORT).show();
                 }
 
             }

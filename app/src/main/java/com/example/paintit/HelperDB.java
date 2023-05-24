@@ -62,16 +62,18 @@ public class HelperDB extends SQLiteOpenHelper {
     private static final String DEVELOPMENT_PAINTING = "developmentPainting";
     private static final String DEVELOPMENT_USER = "developmentUser";
     private static final String DEVELOPMENT_COLORED = "developmentColored";
+    private static final String DEVELOPMENT_TIME = "developmentTime";
 
     private static final String DEVELOPMENT_TABLE = " CREATE TABLE IF NOT EXISTS " + DEVELOPMENT + "("
             + DEVELOPMENT_PAINTING + " INTEGER,"
             + DEVELOPMENT_USER + " INTEGER,"
             + DEVELOPMENT_COLORED + " TEXT,"
+            + DEVELOPMENT_TIME + "TEXT,"
             + "FOREIGN KEY (" + DEVELOPMENT_PAINTING + ") REFERENCES PAINTING(PAINTING_ID),"
             + "FOREIGN KEY (" + DEVELOPMENT_USER + ") REFERENCES USERS(USER_ID)"
             + ");";
 
-    private static final String[] DEVELOPMENT_COLUMN = {DEVELOPMENT_PAINTING, DEVELOPMENT_USER, DEVELOPMENT_COLORED};
+    private static final String[] DEVELOPMENT_COLUMN = {DEVELOPMENT_PAINTING, DEVELOPMENT_USER, DEVELOPMENT_COLORED,DEVELOPMENT_TIME};
 
 
     public HelperDB(Context context) {
@@ -163,6 +165,13 @@ public class HelperDB extends SQLiteOpenHelper {
         db.close();
         return pixels;
     }
+
+    public String saveProgress(){
+
+
+        return "";
+    }
+
     public String getPaintingColors(int paintingId) {
         String colors = null;
         SQLiteDatabase db = this.getReadableDatabase();
