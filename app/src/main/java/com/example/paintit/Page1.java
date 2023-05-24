@@ -1,6 +1,9 @@
 package com.example.paintit;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -46,7 +49,9 @@ public class Page1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +69,15 @@ public class Page1 extends Fragment {
                 Toast.makeText(getActivity(), "" + (position+1), Toast.LENGTH_SHORT).show();
                 Intent intent1 = new Intent(getActivity(), GameActivity.class);
                 HelperDB helperDB = new HelperDB(getContext());
-                helperDB.addPredefinedPainting();
+                SharedPreferences preferences = getContext().getSharedPreferences("my_prefs", MODE_PRIVATE);
+                boolean codeExecuted = preferences.getBoolean("code_executed", false);
+                if (!codeExecuted) {
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("code_executed", true);
+                    helperDB.addPredefinedPainting();
+                    editor.apply();
+                }
+
                 intent1.putExtra("id", (position+1));
                 startActivity(intent1);
             }

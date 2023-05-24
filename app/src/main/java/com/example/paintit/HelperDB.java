@@ -87,6 +87,7 @@ public class HelperDB extends SQLiteOpenHelper {
         db.execSQL(STATISTICS_TABLE);
         db.execSQL(PAINTING_TABLE);
         db.execSQL(DEVELOPMENT_TABLE);
+        db.insert(PAINTING, null, )
     }
 
     public void addPainting(String paintingName, String paintingPixels, String paintingColors) {
