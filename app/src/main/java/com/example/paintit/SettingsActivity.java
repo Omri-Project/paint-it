@@ -32,6 +32,7 @@ public class SettingsActivity extends TouchDetector {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.settings);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         getSupportFragmentManager().beginTransaction()
