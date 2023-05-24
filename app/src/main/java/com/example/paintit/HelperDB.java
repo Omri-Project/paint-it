@@ -87,7 +87,6 @@ public class HelperDB extends SQLiteOpenHelper {
         db.execSQL(STATISTICS_TABLE);
         db.execSQL(PAINTING_TABLE);
         db.execSQL(DEVELOPMENT_TABLE);
-        db.insert(PAINTING, null, )
     }
 
     public void addPainting(String paintingName, String paintingPixels, String paintingColors) {
@@ -210,15 +209,28 @@ public class HelperDB extends SQLiteOpenHelper {
     }
 
 
-    public boolean ifExist(String username, String password) {
+//    public boolean ifExist(String username, String password) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        String query = "SELECT * FROM users WHERE username=? AND password=?";
+//        String[] selectionArgs = {username, password};
+//        Cursor cursor = db.rawQuery(query, selectionArgs);
+//        boolean exists = (cursor.getCount() > 0);
+//        cursor.close();
+//        db.close();
+//        return exists;
+//    }
+    public long userIndex(String name, String password){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM users WHERE username=? AND password=?";
-        String[] selectionArgs = {username, password};
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-        boolean exists = (cursor.getCount() > 0);
-        cursor.close();
-        db.close();
-        return exists;
+        String order = USER_ID + " ASC ";
+        String[] args = new String[] {name, password};
+        Cursor cursor = db.query(USER_TABLE, USER_COLUMN, USERNAME+" = ? AND "+PASSWORD+" = ? ", args, null, null, order);
+        if (cursor.moveToFirst()){
+            do {
+                long id = cursor.getLong(cursor.getColumnIndex(USER_ID));
+                return id;
+            } while (cursor.moveToNext());
+        }
+        return -1;
     }
 
 
