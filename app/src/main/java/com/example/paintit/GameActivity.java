@@ -52,7 +52,7 @@ public class GameActivity extends TouchDetector {
         helperDB = new HelperDB(getApplicationContext());
         String pixelData = helperDB.getPaintingPixels(id);
         String colorsData = helperDB.getPaintingColors(id);
-        String isColoredData = helperDB.getDevelopment(id, 1);
+        String isColoredData = helperDB.getDevelopment(id, 2);
         pixels = StringToArrayAdapter.stringToArray(pixelData);
         colors = StringToArrayAdapter.stringToColorArray(colorsData);
         isColored = StringToArrayAdapter.stringToArray(isColoredData);
@@ -106,18 +106,22 @@ public class GameActivity extends TouchDetector {
                 button.setText(""+pixels[i][j]);
                 button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
                 button.setPadding(0, 0, 0, 0);
+                GradientDrawable shape = new GradientDrawable();
                 if (isColored[i][j] == 0){
                     button.setBackgroundColor(Color.WHITE);
                     button.setTextColor(Color.BLACK);
+                    shape.setStroke(1, Color.BLACK);
                 } else {
-                    button.setBackgroundColor(Color.parseColor(colors[pixels[i][j]]));
                     button.setTextColor(Color.parseColor(colors[pixels[i][j]]));
                     button.setClickable(false);
                 }
-                GradientDrawable shape = new GradientDrawable();
                 shape.setShape(GradientDrawable.RECTANGLE);
-                shape.setStroke(2, Color.BLACK);
                 button.setBackground(shape);
+                if (!button.isClickable()) {
+                    //shape.setStroke(1, Color.BLACK);
+                    shape.setColor(Color.parseColor(colors[pixels[i][j]]));
+                    button.setBackground(shape);
+                }
                 button.setLayoutParams(new GridLayout.LayoutParams(new ViewGroup.LayoutParams(buttonSize, buttonSize)));
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -125,7 +129,7 @@ public class GameActivity extends TouchDetector {
                         int text = Integer.parseInt((String) button.getText());
                         if (chosenColor == text){
                             shape.setShape(GradientDrawable.RECTANGLE);
-                            shape.setStroke(2, Color.BLACK);
+                            shape.setStroke(1, Color.BLACK);
                             button.setBackground(shape);
                             button.setBackgroundColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())]));
                             button.setTextColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())]));
@@ -134,28 +138,32 @@ public class GameActivity extends TouchDetector {
                             releaseInstance();
                         }
                     }
-                }); if (!button.isClickable()){
-                    isColored[i][j] = 1;
-                }
+                });
                 buttonGrid.addView(button);
             }
         }
     } @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.back,menu);
+        getMenuInflater().inflate(R.menu.back_and_save,menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menuBack) {
             helperDB = new HelperDB(getApplicationContext());
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numColumns; j++) {
+                    Button button = (Button) buttonGrid.getChildAt(i * numColumns + j);
+                    if (!button.isClickable()) {
+                        isColored[i][j] = 1;
+                }
+            }
+        }
             intent = getIntent();
             int idPainting = intent.getIntExtra("id", 0);
-            helperDB.updateDevelopment(idPainting, 1, isColored);
+//            int idPainting = 1;
+            helperDB.updateDevelopment(idPainting, 2, isColored);
             this.finish();
             mediaPlayer.start();
-        }
         return true;
     }
 

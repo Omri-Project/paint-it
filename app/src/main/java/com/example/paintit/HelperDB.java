@@ -100,7 +100,7 @@ public class HelperDB extends SQLiteOpenHelper {
 
         db.close();
     }
-    public void addDevelopment (int paintingId, int userId){
+    public void addDevelopment (int paintingId, long userId){
         int[][] paintingPixels = StringToArrayAdapter.stringToArray(getPaintingPixels(paintingId));
         String colored = "";
         for (int i = 0; i < paintingPixels.length; i++){
@@ -186,14 +186,17 @@ public class HelperDB extends SQLiteOpenHelper {
         db.close();
         return colors;
     }
-    public void updateDevelopment (int paintingId, int userId, int[][] isColored){
+    public void updateDevelopment(int paintingId, long userId, int[][] isColored) {
         SQLiteDatabase db = this.getWritableDatabase();
         String colored = StringToArrayAdapter.arrayToString(isColored);
         ContentValues values = new ContentValues();
         values.put(DEVELOPMENT_COLORED, colored);
-        db.update(this.DEVELOPMENT, values, DEVELOPMENT_PAINTING + " = ? AND "+ DEVELOPMENT_USER + " = ? ", new String[]{""+paintingId, ""+userId});
+        String selection = DEVELOPMENT_PAINTING + " = ? AND " + DEVELOPMENT_USER + " = ? ";
+        String[] selectionArgs = {String.valueOf(paintingId), String.valueOf(userId)};
+        db.update(DEVELOPMENT, values, selection, selectionArgs);
         db.close();
     }
+
 
 
 
@@ -206,6 +209,9 @@ public class HelperDB extends SQLiteOpenHelper {
         values.put(EMAIL, email);
         db.insert(USERS, null, values);
         db.close();
+        for (int i = 1; i < 6; i++){
+            addDevelopment(i, userIndex(name, pass));
+        }
     }
 
 
