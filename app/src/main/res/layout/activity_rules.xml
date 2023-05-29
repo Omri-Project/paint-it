@@ -18,5 +18,6 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="vfbhjkbkerjvbkdvbkrejbvjfkvbf" />
+        android:textSize="25dp"
+        android:text="Welcome to PaintIt, the relaxing new puzzle game that allows you to create vibrant works of art one pixel at a time! Simply choose a color and follow the puzzle to bring your glorious masterpiece to life! With 5 inspiring levels to choose from, PaintIt is the perfect way to unwind and unleash your artistic side!" />
 </LinearLayout>

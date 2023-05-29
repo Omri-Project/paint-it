@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class Page2 extends Fragment {
     GridView gridView;
     MediaPlayer mp;
-    public Drawing[] drawings = new Drawing[10];
+    public Drawing[] drawings = new Drawing[5];
 
 
     private GridViewAdapter adapter;
