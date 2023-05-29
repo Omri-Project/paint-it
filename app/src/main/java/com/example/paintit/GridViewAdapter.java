@@ -18,6 +18,8 @@ public class GridViewAdapter extends BaseAdapter {
     private Context context;
     private Drawing[] drawings;
     LayoutInflater inflater;
+    int[] drawables = {R.drawable.duck, R.drawable.canvas_pixle_art, R.drawable.mushroom, R.drawable.frog, R.drawable.nyancat};
+
 
     public GridViewAdapter (Context context, Drawing[] drawings){
         this.context = context;
@@ -43,7 +45,7 @@ public class GridViewAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.single_drawing_layout, null);
         }
         ImageView img = view.findViewById(R.id.imageView2);
-        img.setImageResource(R.drawable.canvas_pixle_art);
+        img.setImageResource(drawables[i]);
 
         return view;
     }
