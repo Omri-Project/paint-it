@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -7,7 +6,6 @@
         <SwitchPreferenceCompat
             app:key="sound_effects"
             app:title="Sound Effects"
-            android:id="@+id/sound_effects_switch"
             app:defaultValue="true"
             app:useSimpleSummaryProvider="true"/>
 

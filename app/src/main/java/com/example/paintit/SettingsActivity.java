@@ -2,7 +2,7 @@ package com.example.paintit;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,25 +10,15 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Switch;
 
+import com.example.paintit.TouchDetector;
+
 public class SettingsActivity extends TouchDetector {
-    Intent intent;
+
     private Switch switchView;
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
     private boolean soundsEnabled = true; // Default value if not found in SharedPreferences
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +36,18 @@ public class SettingsActivity extends TouchDetector {
             saveSoundEffectsState(isChecked);
         });
 
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
         getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
 
-        intent = new Intent(this, MainActivity.class);
-        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        soundsEnabled = preferences.getBoolean("sound_effects", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
             mediaPlayer = null;
         }
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
     }
 
     @Override
@@ -84,9 +70,9 @@ public class SettingsActivity extends TouchDetector {
     }
 
     private void saveSoundEffectsState(boolean enabled) {
-        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("sounds_enabled", enabled);
+        editor.putBoolean("sound_effects", enabled);
         editor.apply();
     }
 }
