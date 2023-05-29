@@ -42,6 +42,7 @@ public class GameActivity extends TouchDetector {
     LinearLayout scrollBar;
     Timer timer;
     Intent intent;
+    boolean soundsEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class GameActivity extends TouchDetector {
             scrollBar.addView(color);
         }colorsBar.addView(scrollBar);
         SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+        soundsEnabled = preferences.getBoolean("sounds_enabled", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
@@ -155,16 +156,89 @@ public class GameActivity extends TouchDetector {
                     Button button = (Button) buttonGrid.getChildAt(i * numColumns + j);
                     if (!button.isClickable()) {
                         isColored[i][j] = 1;
+                    }
                 }
             }
-        }
             intent = getIntent();
             int idPainting = intent.getIntExtra("id", 0);
-//            int idPainting = 1;
             helperDB.updateDevelopment(idPainting, 2, isColored);
             this.finish();
             mediaPlayer.start();
         return true;
+    }
+    @Override
+    public void onBackPressed() {
+        // Update the development status in the database
+        helperDB = new HelperDB(getApplicationContext());
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                Button button = (Button) buttonGrid.getChildAt(i * numColumns + j);
+                if (!button.isClickable()) {
+                    isColored[i][j] = 1;
+                }
+            }
+        }
+        intent = getIntent();
+        int idPainting = intent.getIntExtra("id", 0);
+        helperDB.updateDevelopment(idPainting, 2, isColored);
+
+        // Finish the activity
+        super.onBackPressed();
+
+        // Start the media player
+        if (soundsEnabled && mediaPlayer != null) {
+            mediaPlayer.start();
+        }
+    }
+    @Override
+    protected void onUserLeaveHint() {
+        // Update the development status in the database
+        helperDB = new HelperDB(getApplicationContext());
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                Button button = (Button) buttonGrid.getChildAt(i * numColumns + j);
+                if (!button.isClickable()) {
+                    isColored[i][j] = 1;
+                }
+            }
+        }
+        intent = getIntent();
+        int idPainting = intent.getIntExtra("id", 0);
+        helperDB.updateDevelopment(idPainting, 2, isColored);
+
+        // Start the media player
+        if (soundsEnabled && mediaPlayer != null) {
+            mediaPlayer.start();
+        }
+
+        super.onUserLeaveHint();
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if (!hasFocus) {
+            // The window lost focus (Recent Apps button pressed)
+
+            // Update the development status in the database
+            helperDB = new HelperDB(getApplicationContext());
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numColumns; j++) {
+                    Button button = (Button) buttonGrid.getChildAt(i * numColumns + j);
+                    if (!button.isClickable()) {
+                        isColored[i][j] = 1;
+                    }
+                }
+            }
+            intent = getIntent();
+            int idPainting = intent.getIntExtra("id", 0);
+            helperDB.updateDevelopment(idPainting, 2, isColored);
+
+            // Start the media player
+            if (soundsEnabled && mediaPlayer != null) {
+                mediaPlayer.start();
+            }
+        }
     }
 
 }
