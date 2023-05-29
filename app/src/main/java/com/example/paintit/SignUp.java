@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,13 +37,15 @@ public class SignUp extends TouchDetector {
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(SignUp.this , LoginActivity.class);
         Intent in1 = new Intent(SignUp.this , GalleryActivity.class);
-        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+//        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+//        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
+        boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
-            mediaPlayer = null;
+            mediaPlayer =  new MediaPlayer();
         }
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

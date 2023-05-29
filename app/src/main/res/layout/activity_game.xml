@@ -6,28 +6,41 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     tools:context=".GameActivity">
-
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="wrap_content"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:rowCount="17"
-        android:columnCount="10"
-        android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
-        android:useDefaultMargins="true">
+        android:scrollbars="none"
+        android:layout_weight="1">
 
-        <!-- Add buttons dynamically from code -->
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:scrollbars="none">
 
-    </GridLayout>
+            <GridLayout
+                android:id="@+id/gridLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:rowCount="17"
+                android:columnCount="10"
+                android:alignmentMode="alignMargins"
+                android:columnOrderPreserved="false"
+                android:useDefaultMargins="true">
+
+                <!-- Add buttons dynamically from code -->
+
+            </GridLayout>
+
+        </HorizontalScrollView>
+
+    </ScrollView>
 
     <HorizontalScrollView
         android:id="@+id/colorsBar"
+        android:overScrollMode="always"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/color_circle"
-        android:overScrollMode="always">
+        android:layout_height="wrap_content">
     </HorizontalScrollView>
 
 </LinearLayout>

@@ -10,13 +10,14 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.example.paintit.TouchDetector;
 
 public class SettingsActivity extends TouchDetector {
 
-    private Switch switchView;
+    private Switch soundSwitch;
     private MediaPlayer mediaPlayer;
     private boolean soundsEnabled = true; // Default value if not found in SharedPreferences
 
@@ -28,26 +29,40 @@ public class SettingsActivity extends TouchDetector {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        switchView = findViewById(R.id.sound_effects_switch);
-
-        switchView.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            soundsEnabled = isChecked;
-            saveSoundEffectsState(isChecked);
+        soundSwitch = findViewById(R.id.sound_effects_switch);
+        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        soundSwitch.setChecked(preferences.getBoolean("sound_effects", true));
+        SharedPreferences.Editor editor = preferences.edit();
+        soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                editor.putBoolean("sound_effects", soundSwitch.isChecked());
+            }
         });
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
-                .commit();
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        soundsEnabled = preferences.getBoolean("sound_effects", true);
-
-        if (soundsEnabled) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
-        } else {
-            mediaPlayer = null;
-        }
+//
+//        switchView = findViewById(R.id.sound_effects_switch);
+//
+//        switchView.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            soundsEnabled = isChecked;
+//            saveSoundEffectsState(isChecked);
+//        });
+//
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(android.R.id.content, new SettingsFragment())
+//                .commit();
+//
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        soundsEnabled = preferences.getBoolean("sound_effects", true);
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.putBoolean("sound_effects", false);
+//        editor.apply();
+//
+//        if (soundsEnabled) {
+//            mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
+//        } else {
+//            mediaPlayer = MediaPlayer.create(this, null);
+//        }
     }
 
     @Override

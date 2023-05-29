@@ -7,11 +7,14 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,6 +46,8 @@ public class GameActivity extends TouchDetector {
     Timer timer;
     Intent intent;
     boolean soundsEnabled;
+    private ScaleGestureDetector scaleGestureDetector;
+    private boolean isModeOne = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +70,16 @@ public class GameActivity extends TouchDetector {
         chosenColor = 0;
         for (int i = 1; i < colors.length; i++){
             final Button color = new Button(this);
+            GradientDrawable circle = new GradientDrawable();
+            circle.setColor(Color.parseColor(colors[i]));
+//            circle.setShape(GradientDrawable.OVAL);
+            circle.setCornerRadius(0f);
+            color.setBackground(circle);
+            color.setPadding(5,5,5,5);
             color.setText(""+(i));
             if (colors[i].equals("#000000")){
                 color.setTextColor(Color.WHITE);
             }
-            color.setBackground(getResources().getDrawable(R.drawable.circle));
-            color.setBackgroundColor(Color.parseColor(colors[i]));
             color.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -86,13 +95,16 @@ public class GameActivity extends TouchDetector {
             });
             scrollBar.addView(color);
         }colorsBar.addView(scrollBar);
-        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+//        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+//        soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GameActivity.this);
+        boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
+
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
-            mediaPlayer = null;
+            mediaPlayer =  new MediaPlayer();
         }
 
         // Update the grid layout to use the specified number of rows and columns
@@ -102,7 +114,7 @@ public class GameActivity extends TouchDetector {
         // Calculate the button size based on the screen width and number of columns
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int screenWidth = displayMetrics.widthPixels;
-        buttonSize = screenWidth / numColumns;
+        buttonSize = screenWidth / 15;
 
         // Create the buttons and add them to the grid
         for (int i = 0; i < numRows; i++) {
@@ -167,7 +179,9 @@ public class GameActivity extends TouchDetector {
             int idPainting = intent.getIntExtra("id", 0);
             helperDB.updateDevelopment(idPainting, 2, isColored);
             this.finish();
-            mediaPlayer.start();
+            if (mediaPlayer != null){
+                mediaPlayer.start();
+            }
         return true;
     }
     @Override
