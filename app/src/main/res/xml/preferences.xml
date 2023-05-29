@@ -7,6 +7,7 @@
         <SwitchPreferenceCompat
             app:key="sound_effects"
             app:title="Sound Effects"
+            android:id="@+id/sound_effects_switch"
             app:defaultValue="true"
             app:useSimpleSummaryProvider="true"/>
 

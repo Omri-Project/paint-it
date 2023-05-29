@@ -66,6 +66,9 @@ public class GameActivity extends TouchDetector {
         for (int i = 1; i < colors.length; i++){
             final Button color = new Button(this);
             color.setText(""+(i));
+            if (colors[i].equals("#000000")){
+                color.setTextColor(Color.WHITE);
+            }
             color.setBackground(getResources().getDrawable(R.drawable.circle));
             color.setBackgroundColor(Color.parseColor(colors[i]));
             color.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +77,7 @@ public class GameActivity extends TouchDetector {
 //                    if (timer.getStart() == null){
 //                        timer.setStart(Calendar.getInstance().getTime());
 //                    }
+                    mediaPlayer.start();
                     int numColor = Integer.parseInt((String) color.getText());
                     if (numColor != chosenColor) {
                         chosenColor = numColor;

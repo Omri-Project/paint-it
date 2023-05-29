@@ -10,13 +10,14 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Switch;
-import android.widget.TextView;
 
 public class SettingsActivity extends TouchDetector {
     Intent intent;
     private Switch switchView;
     MediaPlayer mediaPlayer;
+    private boolean soundsEnabled = true; // Default value if not found in SharedPreferences
 
     @Override
     public void onBackPressed() {
@@ -33,15 +34,27 @@ public class SettingsActivity extends TouchDetector {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        switchView = findViewById(R.id.sound_effects_switch);
+
+        switchView.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            soundsEnabled = isChecked;
+            saveSoundEffectsState(isChecked);
+        });
+
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
 
-        intent  = new Intent(this, MainActivity.class);
+        intent = new Intent(this, MainActivity.class);
         SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+        soundsEnabled = preferences.getBoolean("sounds_enabled", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
@@ -49,23 +62,31 @@ public class SettingsActivity extends TouchDetector {
             mediaPlayer = null;
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-
-
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.back,menu);
+        getMenuInflater().inflate(R.menu.back, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuBack) {
             this.finish();
-            mediaPlayer.start();
+            if (soundsEnabled && mediaPlayer != null) {
+                mediaPlayer.start();
+            }
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void saveSoundEffectsState(boolean enabled) {
+        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("sounds_enabled", enabled);
+        editor.apply();
     }
 }
