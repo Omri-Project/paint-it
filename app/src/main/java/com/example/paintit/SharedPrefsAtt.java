@@ -1,6 +1,7 @@
 package com.example.paintit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -97,6 +98,8 @@ public class SharedPrefsAtt extends TouchDetector {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuBack) {
+            Intent in = new Intent(SharedPrefsAtt.this , GalleryActivity.class);
+            startActivity(in);
             this.finish();
 //            if (soundsEnabled && mediaPlayer != null) {
 //                mediaPlayer.start();

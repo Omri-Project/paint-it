@@ -39,13 +39,9 @@ public class SignUp extends TouchDetector {
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(SignUp.this , LoginActivity.class);
         Intent in1 = new Intent(SignUp.this , GalleryActivity.class);
-<<<<<<< HEAD
 //        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
 //        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
         preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
-=======
-        preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
->>>>>>> c7865dd313ff03bcf563787d04824d2ab530ef09
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
@@ -98,16 +94,12 @@ public class SignUp extends TouchDetector {
                 else if (helperDB.userIndex(username.getText().toString(), password.getText().toString()) == -1){
                     helperDB.addNewUser(username.getText().toString() , password.getText().toString() , email.getText().toString());
                     Toast.makeText(SignUp.this, "Successfully Added New User", Toast.LENGTH_SHORT).show();
-<<<<<<< HEAD
 //                    isLoggedIn = true;
 //                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
 //                    SharedPreferences.Editor editor = preferences.edit();
 //                    editor.putBoolean("isLoggedIn", isLoggedIn);
 //                    editor.apply();
                     preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
-=======
-                    preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
->>>>>>> c7865dd313ff03bcf563787d04824d2ab530ef09
                     preferences.edit().putLong("connectedId", helperDB.userIndex(username.getText().toString(), password.getText().toString())).apply();
                     startActivity(in1);
                     finish();

@@ -287,7 +287,8 @@ public class GameActivity extends TouchDetector {
         intent = getIntent();
         int idPainting = intent.getIntExtra("id", 0);
         helperDB.updateDevelopment(idPainting, userId, isColored);
-        finish();
+        Intent intent1 = new Intent(this, GalleryActivity.class);
+        startActivity(intent1);
         if (mediaPlayer != null) {
             mediaPlayer.start();
         }
@@ -298,6 +299,8 @@ public class GameActivity extends TouchDetector {
     public void onBackPressed() {
         saveDevelopmentStatus();
         super.onBackPressed();
+        Intent intent1 = new Intent(this, GalleryActivity.class);
+        startActivity(intent1);
         if (soundsEnabled && mediaPlayer != null) {
             mediaPlayer.start();
         }

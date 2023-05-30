@@ -74,6 +74,7 @@ public class Page1 extends Fragment {
                 playAudio();
                 intent1.putExtra("id", (position+1));
                 startActivity(intent1);
+                getActivity().finish();
             }
         });
 

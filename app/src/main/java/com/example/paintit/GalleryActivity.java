@@ -56,9 +56,7 @@ public class GalleryActivity extends TouchDetector {
     }
     @Override
     public boolean onMenuOpened(int featureId, Menu menu){
-        if (mediaPlayer != null) {
-            mediaPlayer.start();
-        }
+        mediaPlayer.start();
         return true;
     }
     @Override
@@ -68,21 +66,17 @@ public class GalleryActivity extends TouchDetector {
             intent = new Intent(this, SharedPrefsAtt.class);
             mediaPlayer.start();
             releaseInstance();
-            if (mediaPlayer != null) {
-                mediaPlayer.start();
-            }
             startActivity(intent);
+            finish();
         } else  if (id == R.id.menuRules){
             intent = new Intent(this, RulesActivity.class);
-            if (mediaPlayer != null) {
-                mediaPlayer.start();
-            }
+            mediaPlayer.start();
+            releaseInstance();
             startActivity(intent);
         } else if (id == R.id.menuShare){
             intent = new Intent(Intent.ACTION_SEND);
-            if (mediaPlayer != null) {
-                mediaPlayer.start();
-            }
+            mediaPlayer.start();
+            releaseInstance();
             intent.setType("text/plain");
             if (intent != null){
                 intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");
@@ -96,17 +90,13 @@ public class GalleryActivity extends TouchDetector {
 //            SharedPreferences.Editor editor = preferences.edit();
 //            editor.putBoolean("isLoggedIn", isLoggedIn);
 //            editor.apply();
-            if (mediaPlayer != null) {
-                mediaPlayer.start();
-            }
             preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
             preferences.edit().putLong("connectedId", -1).apply();
             Intent in = new Intent(GalleryActivity.this , LoginActivity.class);
             startActivity(in);
         } else {
-            if (mediaPlayer != null) {
-                mediaPlayer.start();
-            }
+            mediaPlayer.start();
+            releaseInstance();
             Toast.makeText(GalleryActivity.this,"This option is unavailable right now",Toast.LENGTH_SHORT).show();
         }
         return true;

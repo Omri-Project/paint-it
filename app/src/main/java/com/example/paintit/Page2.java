@@ -57,6 +57,7 @@ public class Page2 extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+//                getActivity().finish();
             }
         });
 
