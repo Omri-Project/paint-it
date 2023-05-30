@@ -73,6 +73,8 @@
         android:text="Return to Home Page"
         android:textColor="#CAD1B1"
         android:textSize="30sp"
+        android:gravity="center"
+        android:textAlignment="center"
         android:backgroundTint="@color/white"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="116dp"/>

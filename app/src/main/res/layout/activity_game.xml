@@ -28,8 +28,6 @@
                 android:columnOrderPreserved="false"
                 android:useDefaultMargins="true">
 
-                <!-- Add buttons dynamically from code -->
-
             </GridLayout>
 
         </HorizontalScrollView>

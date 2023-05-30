@@ -47,7 +47,7 @@ public class Page2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         for (int i = 0; i < drawings.length; i++){
-            drawings[i] = new Drawing("Cat", 1, R.drawable.ic_launcher_background);
+            drawings[i] = new Drawing((i+1), "Cat", null ,null);
         }
 
         View rootView = inflater.inflate(R.layout.fragment_page1, container, false);

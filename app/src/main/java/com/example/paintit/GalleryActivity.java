@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -30,15 +29,13 @@ public class GalleryActivity extends TouchDetector {
         ViewPager2 viewPager2 = findViewById(R.id.view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
-//        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GalleryActivity.this);
-//        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
+        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
-            mediaPlayer =  new MediaPlayer();
+            mediaPlayer = null;
         }
 
 
@@ -69,7 +66,7 @@ public class GalleryActivity extends TouchDetector {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuSettings){
-            intent = new Intent(this, SharedPrefsAtt.class);
+            intent = new Intent(this, SettingsActivity.class);
             mediaPlayer.start();
             releaseInstance();
             startActivity(intent);

@@ -1,53 +1,47 @@
 package com.example.paintit;
 
 public class Drawing {
+    private int id;
     private String name;
-    private String difficulty;
-    private boolean isDone;
-    private int imgID;
+    private String pixels;
+    private String colors;
+
+    public Drawing(int id, String name, String pixels, String colors) {
+        this.id = id;
+        this.name = name;
+        this.pixels = pixels;
+        this.colors = colors;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
+    }
+
+    public String getPixels() {
+        return pixels;
+    }
+
+    public String getColors() {
+        return colors;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getDifficulty() {
-        return difficulty;
+    public void setPixels(String pixels) {
+        this.pixels = pixels;
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public void setDone(boolean done) {
-        isDone = done;
-    }
-
-    public int getImgID() {
-        return imgID;
-    }
-
-    public void setImgID(int imgID) {
-        this.imgID = imgID;
-    }
-
-    public Drawing (String name, int dif, int imgID){
-        this.name = name;
-        this.isDone = false;
-        this.imgID = imgID;
-        if (dif == 1){
-            this.difficulty = "Easy";
-        } else if (dif == 2){
-            this.difficulty = "Medium";
-        } else {
-            this.difficulty = "Hard";
-        }
+    public void setColors(String colors) {
+        this.colors = colors;
     }
 }

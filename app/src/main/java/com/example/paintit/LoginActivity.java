@@ -10,7 +10,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Menu;
@@ -31,31 +30,28 @@ public class LoginActivity extends TouchDetector {
     HelperDB helperDB;
     Intent intent;
     MediaPlayer mediaPlayer;
-    boolean isLoggedIn;
-    SharedPreferences preferences;
+    Boolean isLoggedIn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         start = findViewById(R.id.start_btn);
-        preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         show_lv = findViewById(R.id.show_lv);
         create_acc = findViewById(R.id.create_acc);
-//        isLoggedIn = false;
+        isLoggedIn = false;
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(LoginActivity.this , GalleryActivity.class);
         Intent in1 = new Intent(LoginActivity.this , SignUp.class);
-//        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
-
+        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
-            mediaPlayer =  new MediaPlayer();
+            mediaPlayer = null;
         }
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -81,14 +77,14 @@ public class LoginActivity extends TouchDetector {
                 releaseInstance();
                 String checkUser = String.valueOf(username.getText());
                 String checkPass = String.valueOf(password.getText());
-                long id = helperDB.userIndex(checkUser, checkPass);
-                if (id!=-1) {
+                if (helperDB.ifExist(checkUser, checkPass)) {
+                    isLoggedIn = true;
+
                     Toast.makeText(LoginActivity.this, "Entered Successfully", Toast.LENGTH_SHORT).show();
-//                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = preferences.edit();
-//                    editor.putLong("idLoggedIn", id);
-//                    editor.apply();
-                    preferences.edit().putLong("connectedId", id).apply();
+                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("isLoggedIn", isLoggedIn);
+                    editor.apply();
                     startActivity(in);
                     finish();
                 }
@@ -114,7 +110,6 @@ public class LoginActivity extends TouchDetector {
             public void onClick(View v) {
                 mediaPlayer.start();
                 releaseInstance();
-
                 startActivity(in1);
                 finish();
             }

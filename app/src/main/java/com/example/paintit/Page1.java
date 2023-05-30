@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class Page1 extends Fragment {
     GridView gridView;
-    MediaPlayer mp;
+    MediaPlayer mediaPlayer;
     public Drawing[] drawings = new Drawing[5];
 
 
@@ -56,7 +56,7 @@ public class Page1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         for (int i = 0; i < drawings.length; i++){
-            drawings[i] = new Drawing("Cat", 1, R.drawable.ic_launcher_background);
+            drawings[i] = new Drawing((i+1), "Cat", null ,null);
         }
 
         View rootView = inflater.inflate(R.layout.fragment_page1, container, false);
@@ -68,6 +68,7 @@ public class Page1 extends Fragment {
 
                 Toast.makeText(getActivity(), "" + (position+1), Toast.LENGTH_SHORT).show();
                 Intent intent1 = new Intent(getActivity(), GameActivity.class);
+                playAudio();
                 intent1.putExtra("id", (position+1));
                 startActivity(intent1);
             }
@@ -75,4 +76,11 @@ public class Page1 extends Fragment {
 
         return rootView;
     }
+
+    private void playAudio() {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(getActivity(), R.raw.button_click);
+        }mediaPlayer.start();
+    }
+
 }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +22,6 @@ public class SignUp extends TouchDetector {
     HelperDB helperDB;
     Intent intent;
     MediaPlayer mediaPlayer;
-    SharedPreferences preferences;
     Boolean isLoggedIn = false;
 
     @Override
@@ -38,15 +36,13 @@ public class SignUp extends TouchDetector {
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(SignUp.this , LoginActivity.class);
         Intent in1 = new Intent(SignUp.this , GalleryActivity.class);
-//        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-//        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
-        boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
+        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
-            mediaPlayer =  new MediaPlayer();
+            mediaPlayer = null;
         }
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -86,19 +82,14 @@ public class SignUp extends TouchDetector {
                     Toast.makeText(SignUp.this, "Please Fill All Required Tabs", Toast.LENGTH_SHORT).show();
                 }
 
-                else if (helperDB.userIndex(username.getText().toString(), password.getText().toString()) == -1){
+                else if (helperDB.ifExist(username.getText().toString(), password.getText().toString()) == false){
                     helperDB.addNewUser(username.getText().toString() , password.getText().toString() , email.getText().toString());
                     Toast.makeText(SignUp.this, "Successfully Added New User", Toast.LENGTH_SHORT).show();
-//                    isLoggedIn = true;
-//                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = preferences.edit();
-//                    editor.putBoolean("isLoggedIn", isLoggedIn);
-//                    editor.apply();
-                    long id = helperDB.userIndex(username.getText().toString(), password.getText().toString());
-                    preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
-                    preferences.edit().putLong("connectedId", id).apply();
-
-
+                    isLoggedIn = true;
+                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("isLoggedIn", isLoggedIn);
+                    editor.apply();
                     startActivity(in1);
                     finish();
                     mediaPlayer.start();
@@ -113,5 +104,11 @@ public class SignUp extends TouchDetector {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
     }
 }
