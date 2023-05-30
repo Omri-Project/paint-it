@@ -2,6 +2,7 @@ package com.example.paintit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -40,13 +41,13 @@ public class SignUp extends TouchDetector {
         Intent in1 = new Intent(SignUp.this , GalleryActivity.class);
 //        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
 //        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
-            mediaPlayer = null;
+            mediaPlayer = new MediaPlayer();
         }
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -94,8 +95,7 @@ public class SignUp extends TouchDetector {
 //                    SharedPreferences.Editor editor = preferences.edit();
 //                    editor.putBoolean("isLoggedIn", isLoggedIn);
 //                    editor.apply();
-                    preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
-
+                    preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
                     preferences.edit().putLong("connectedId", helperDB.userIndex(username.getText().toString(), password.getText().toString())).apply();
 
 

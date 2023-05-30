@@ -1,5 +1,6 @@
 package com.example.paintit;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -30,7 +31,7 @@ public class SharedPrefsAtt extends TouchDetector {
         setContentView(R.layout.activity_shared_prefs_att);
 
         // Retrieve the SharedPreferences instance
-         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
 
         // Initialize the preference values
         soundEffectsEnabled = preferences.getBoolean(KEY_SOUND_EFFECTS, true);

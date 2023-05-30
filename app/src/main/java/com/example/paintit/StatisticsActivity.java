@@ -2,6 +2,7 @@ package com.example.paintit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -30,7 +31,7 @@ public class StatisticsActivity extends TouchDetector {
         time_value = findViewById(R.id.time_value);
 //        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
 //        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        preferences = PreferenceManager.getDefaultSharedPreferences(StatisticsActivity.this);
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {

@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -49,13 +50,13 @@ public class LoginActivity extends TouchDetector {
         Intent in1 = new Intent(LoginActivity.this , SignUp.class);
 //        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
 //        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
-            mediaPlayer = null;
+            mediaPlayer = new MediaPlayer();
         }
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -90,6 +91,7 @@ public class LoginActivity extends TouchDetector {
 //                    SharedPreferences.Editor editor = preferences.edit();
 //                    editor.putBoolean("isLoggedIn", isLoggedIn);
 //                    editor.apply();
+                    preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
                     preferences.edit().putLong("connectedId", id).apply();
                     startActivity(in);
                     finish();

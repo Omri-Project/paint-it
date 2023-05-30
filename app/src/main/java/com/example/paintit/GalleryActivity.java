@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -19,7 +20,8 @@ public class GalleryActivity extends TouchDetector {
 
     Intent intent;
     MediaPlayer mediaPlayer;
-    Boolean isLoggedIn = true;
+//    Boolean isLoggedIn = true;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +31,13 @@ public class GalleryActivity extends TouchDetector {
         ViewPager2 viewPager2 = findViewById(R.id.view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
-        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
+        boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
-            mediaPlayer = null;
+            mediaPlayer = new MediaPlayer();
         }
 
 
@@ -66,7 +68,7 @@ public class GalleryActivity extends TouchDetector {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuSettings){
-            intent = new Intent(this, SettingsActivity.class);
+            intent = new Intent(this, SharedPrefsAtt.class);
             mediaPlayer.start();
             releaseInstance();
             startActivity(intent);
@@ -87,11 +89,13 @@ public class GalleryActivity extends TouchDetector {
         } else if (id == R.id.logout) {
             mediaPlayer.start();
             releaseInstance();
-            isLoggedIn = false;
-            SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("isLoggedIn", isLoggedIn);
-            editor.apply();
+//            isLoggedIn = false;
+//            SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+//            SharedPreferences.Editor editor = preferences.edit();
+//            editor.putBoolean("isLoggedIn", isLoggedIn);
+//            editor.apply();
+            preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
+            preferences.edit().putLong("connectedId", -1).apply();
             Intent in = new Intent(GalleryActivity.this , LoginActivity.class);
             startActivity(in);
         } else {

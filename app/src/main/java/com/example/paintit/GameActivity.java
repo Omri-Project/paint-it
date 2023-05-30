@@ -2,6 +2,7 @@ package com.example.paintit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -34,6 +35,7 @@ import com.example.paintit.TouchDetector;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class GameActivity extends TouchDetector {
 
@@ -42,6 +44,7 @@ public class GameActivity extends TouchDetector {
     private int numColumns;
     private int buttonSize;
     private int[][] pixels;
+    Button previousButton = null;
     private int[][] isColored;
     private String[] colors;
     private HelperDB helperDB;
@@ -56,6 +59,7 @@ public class GameActivity extends TouchDetector {
     private Intent intent;
     private boolean soundsEnabled;
     private SharedPreferences preferences;
+    HashMap<Button, Integer> originalColors = new HashMap<>();
     private MediaPlayer mediaPlayer;
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
@@ -73,9 +77,11 @@ public class GameActivity extends TouchDetector {
         helperDB = new HelperDB(getApplicationContext());
         String pixelData = helperDB.getPaintingPixels(id);
         String colorsData = helperDB.getPaintingColors(id);
-        preferences = PreferenceManager.getDefaultSharedPreferences(GameActivity.this);
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         userId = preferences.getLong("connectedId", 0);
-        String isColoredData = helperDB.getDevelopment(id, userId);
+        Development devData = helperDB.getDevelopment(id, userId);
+        String isColoredData = devData.getColoredData();
+        clickedNum = devData.getNumClicked();
         pixels = StringToArrayAdapter.stringToArray(pixelData);
         colors = StringToArrayAdapter.stringToColorArray(colorsData);
         isColored = StringToArrayAdapter.stringToArray(isColoredData);
@@ -115,10 +121,16 @@ public class GameActivity extends TouchDetector {
                 }
             });
 
-            circle.setColor(Color.parseColor(colors[i]));
+            int originalColor = Color.parseColor(colors[i]);
+            circle.setColor(originalColor);
             color.setPadding(10, 10, 10, 10);
             color.setText("" + (i));
-            if (colors[i].equals("#000000") || colors[i].equals("#5A3F26") || colors[i].equals("#6E4D30") || colors[i].equals("#142632") || colors[i].equals("#346933") || colors[i].equals("#2D4F2A") || colors[i].equals("#213C0F") || colors[i].equals("#46744F")){
+            float[] hsv = new float[3];
+            Color.colorToHSV(originalColor, hsv);
+            hsv[2] = Math.min(1.0f, hsv[2] + 0.2f); // Increase brightness by 0.2
+            int adjustedColor = Color.HSVToColor(hsv);
+            circle.setColor(adjustedColor);
+            if (hsv[2] < 0.5) {
                 color.setTextColor(Color.WHITE);
             }
             color.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +140,32 @@ public class GameActivity extends TouchDetector {
                     int numColor = Integer.parseInt((String) color.getText());
                     if (numColor != chosenColor) {
                         chosenColor = numColor;
+                        float[] hsv = new float[3];
+                        int buttonColor = circle.getColor().getDefaultColor();
+                        Color.colorToHSV(buttonColor, hsv);
+                        float value = hsv[2];
+                        if (value < 0.5) {
+                            hsv[2] = Math.min(1.0f, value + 0.2f);
+                        } else {
+                            hsv[2] = Math.max(0.0f, value - 0.2f);
+                        }
+                        int newColor = Color.HSVToColor(hsv);
+                        circle.setColor(newColor);
+                        color.setBackground(circle);
+
+                        // Revert the color of the previous button
+                        if (previousButton != null) {
+                            int previousColor = originalColors.get(previousButton);
+                            ((GradientDrawable) previousButton.getBackground()).setColor(previousColor);
+                        }
+
+                        // Store the original color of the current button if not already stored
+                        if (!originalColors.containsKey(color)) {
+                            originalColors.put(color, buttonColor);
+                        }
+
+                        // Set the current button as the previous button
+                        previousButton = color;
                     }
                 }
             });
@@ -135,7 +173,7 @@ public class GameActivity extends TouchDetector {
         }
         colorsBar.addView(scrollBar);
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(GameActivity.this);
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
@@ -190,7 +228,7 @@ public class GameActivity extends TouchDetector {
                             button.setClickable(false);
                             mediaPlayer.start();
                             if (clickedNum == pixelNum){
-                                Toast.makeText(GameActivity.this, "meow", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GameActivity.this, ""+clickedNum, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -207,12 +245,7 @@ public class GameActivity extends TouchDetector {
 
 
 
-        SharedPreferences preferencess = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        boolean codeExecuted = preferencess.getBoolean("static_pixels", false);
 
-        if (!codeExecuted) {
-            SharedPreferences.Editor editor = preferencess.edit();
-            editor.putBoolean("static_pixels", true);
             if (id == 1){
                 pixelNum = 146;
             }
@@ -228,9 +261,6 @@ public class GameActivity extends TouchDetector {
             else if (id == 5){
                 pixelNum = 1117;
             }
-            editor.apply();
-        }
-
 
     }
 

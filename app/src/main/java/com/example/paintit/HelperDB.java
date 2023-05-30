@@ -66,17 +66,20 @@ public class HelperDB extends SQLiteOpenHelper {
     private static final String DEVELOPMENT_USER = "developmentUser";
     private static final String DEVELOPMENT_COLORED = "developmentColored";
     private static final String DEVELOPMENT_TIME = "developmentTime";
+    private static final String DEVELOPMENT_CLICKED = "developmentClicked";
+
 
     private static final String DEVELOPMENT_TABLE = " CREATE TABLE IF NOT EXISTS " + DEVELOPMENT + "("
             + DEVELOPMENT_PAINTING + " INTEGER,"
             + DEVELOPMENT_USER + " INTEGER,"
             + DEVELOPMENT_COLORED + " TEXT,"
-            + DEVELOPMENT_TIME + "TEXT,"
+            + DEVELOPMENT_CLICKED + " INTEGER,"
+            + DEVELOPMENT_TIME + " INTEGER,"
             + "FOREIGN KEY (" + DEVELOPMENT_PAINTING + ") REFERENCES PAINTING(PAINTING_ID),"
             + "FOREIGN KEY (" + DEVELOPMENT_USER + ") REFERENCES USERS(USER_ID)"
             + ");";
 
-    private static final String[] DEVELOPMENT_COLUMN = {DEVELOPMENT_PAINTING, DEVELOPMENT_USER, DEVELOPMENT_COLORED,DEVELOPMENT_TIME};
+    private static final String[] DEVELOPMENT_COLUMN = {DEVELOPMENT_PAINTING, DEVELOPMENT_USER, DEVELOPMENT_COLORED,DEVELOPMENT_TIME, DEVELOPMENT_CLICKED};
 
 
     public HelperDB(Context context) {
@@ -129,7 +132,7 @@ public class HelperDB extends SQLiteOpenHelper {
         return drawingsList;
     }
 
-    public void addDevelopment (int paintingId, long userId){
+    public String addDevelopment (int paintingId, long userId){
         int[][] paintingPixels = StringToArrayAdapter.stringToArray(getPaintingPixels(paintingId));
         String colored = "";
         for (int i = 0; i < paintingPixels.length; i++){
@@ -146,8 +149,11 @@ public class HelperDB extends SQLiteOpenHelper {
         values.put(DEVELOPMENT_PAINTING, paintingId);
         values.put(DEVELOPMENT_USER, userId);
         values.put(DEVELOPMENT_COLORED, colored);
+        values.put(DEVELOPMENT_CLICKED, 0);
+        values.put(DEVELOPMENT_TIME, 0);
         db.insert(DEVELOPMENT, null, values);
         db.close();
+        return colored;
     }
 
     public List<Development> getAllDevelopments() {
@@ -162,11 +168,11 @@ public class HelperDB extends SQLiteOpenHelper {
             if (cursor != null && cursor.moveToFirst()) {
                 do {
                     int paintingId = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_PAINTING));
-                    int userId = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_USER));
+                    long userId = (long) cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_USER));
                     String coloredData = cursor.getString(cursor.getColumnIndexOrThrow(DEVELOPMENT_COLORED));
-                    String time = cursor.getString(cursor.getColumnIndexOrThrow(DEVELOPMENT_TIME));
-
-                    Development development = new Development(paintingId, userId, coloredData, time);
+                    int time = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_TIME));
+                    int clickedNum = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_CLICKED));
+                    Development development = new Development(paintingId, userId, coloredData, time, clickedNum);
                     developments.add(development);
                 } while (cursor.moveToNext());
             }
@@ -180,25 +186,29 @@ public class HelperDB extends SQLiteOpenHelper {
     }
 
 
-    public String getDevelopment(int paintingId, long userId) {
+    public Development getDevelopment(int paintingId, long userId) {
         String pixels = null;
+        int clickedNum = 0;
+        int time = 0;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] columns = {DEVELOPMENT_COLORED};
+        String[] columns = {DEVELOPMENT_COLORED, DEVELOPMENT_TIME, DEVELOPMENT_CLICKED};
         String selection = DEVELOPMENT_PAINTING + " =? AND "+ DEVELOPMENT_USER + " =? ";
         String[] selectionArgs = {""+paintingId, ""+userId};
 
         Cursor cursor = db.query(DEVELOPMENT, columns, selection, selectionArgs, null, null, null);
-
         if (cursor != null && cursor.moveToFirst()) {
             pixels = cursor.getString(cursor.getColumnIndexOrThrow(DEVELOPMENT_COLORED));
+            clickedNum = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_CLICKED));
+            time = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_TIME));
             cursor.close();
         }
         db.close();
-        if (pixels==null){
-            addDevelopment(paintingId, userId);
+        if (pixels == null){
+            pixels = addDevelopment(paintingId, userId);
         }
-        return pixels;
+        Development dev = new Development(paintingId, userId, pixels, time, clickedNum);
+        return dev;
     }
 
     public void addPredefinedPainting() {
@@ -287,9 +297,9 @@ public class HelperDB extends SQLiteOpenHelper {
         values.put(EMAIL, email);
         db.insert(USERS, null, values);
         db.close();
-        for (int i = 1; i < 6; i++){
-            addDevelopment(i, userIndex(name, pass));
-        }
+//        for (int i = 1; i < 6; i++){
+//            addDevelopment(i, userIndex(name, pass));
+//        }
     }
 
     public long getUserId(String username) {
