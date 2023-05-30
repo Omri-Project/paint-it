@@ -46,8 +46,10 @@ public class GameActivity extends TouchDetector {
     Timer timer;
     Intent intent;
     boolean soundsEnabled;
+    SharedPreferences preferences;
     private ScaleGestureDetector scaleGestureDetector;
     private boolean isModeOne = true;
+    long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,9 @@ public class GameActivity extends TouchDetector {
         helperDB = new HelperDB(getApplicationContext());
         String pixelData = helperDB.getPaintingPixels(id);
         String colorsData = helperDB.getPaintingColors(id);
-        String isColoredData = helperDB.getDevelopment(id, 2);
+        preferences = PreferenceManager.getDefaultSharedPreferences(GameActivity.this);
+        userId = preferences.getLong("connectedId", 0);
+        String isColoredData = helperDB.getDevelopment(id, userId);
         pixels = StringToArrayAdapter.stringToArray(pixelData);
         colors = StringToArrayAdapter.stringToColorArray(colorsData);
         isColored = StringToArrayAdapter.stringToArray(isColoredData);
@@ -97,7 +101,7 @@ public class GameActivity extends TouchDetector {
         }colorsBar.addView(scrollBar);
 //        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
 //        soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(GameActivity.this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(GameActivity.this);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
 
@@ -177,7 +181,7 @@ public class GameActivity extends TouchDetector {
             }
             intent = getIntent();
             int idPainting = intent.getIntExtra("id", 0);
-            helperDB.updateDevelopment(idPainting, 2, isColored);
+            helperDB.updateDevelopment(idPainting, userId, isColored);
             this.finish();
             if (mediaPlayer != null){
                 mediaPlayer.start();
@@ -198,7 +202,7 @@ public class GameActivity extends TouchDetector {
         }
         intent = getIntent();
         int idPainting = intent.getIntExtra("id", 0);
-        helperDB.updateDevelopment(idPainting, 2, isColored);
+        helperDB.updateDevelopment(idPainting, userId, isColored);
 
         // Finish the activity
         super.onBackPressed();
@@ -222,7 +226,7 @@ public class GameActivity extends TouchDetector {
         }
         intent = getIntent();
         int idPainting = intent.getIntExtra("id", 0);
-        helperDB.updateDevelopment(idPainting, 2, isColored);
+        helperDB.updateDevelopment(idPainting, userId, isColored);
 
         // Start the media player
         if (soundsEnabled && mediaPlayer != null) {
@@ -250,7 +254,7 @@ public class GameActivity extends TouchDetector {
             }
             intent = getIntent();
             int idPainting = intent.getIntExtra("id", 0);
-            helperDB.updateDevelopment(idPainting, 2, isColored);
+            helperDB.updateDevelopment(idPainting, userId, isColored);
 
             // Start the media player
             if (soundsEnabled && mediaPlayer != null) {

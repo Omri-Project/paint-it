@@ -23,6 +23,7 @@ public class SignUp extends TouchDetector {
     HelperDB helperDB;
     Intent intent;
     MediaPlayer mediaPlayer;
+    SharedPreferences preferences;
     Boolean isLoggedIn = false;
 
     @Override
@@ -39,7 +40,7 @@ public class SignUp extends TouchDetector {
         Intent in1 = new Intent(SignUp.this , GalleryActivity.class);
 //        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
 //        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
@@ -85,14 +86,19 @@ public class SignUp extends TouchDetector {
                     Toast.makeText(SignUp.this, "Please Fill All Required Tabs", Toast.LENGTH_SHORT).show();
                 }
 
-                else if (helperDB.ifExist(username.getText().toString(), password.getText().toString()) == false){
+                else if (helperDB.userIndex(username.getText().toString(), password.getText().toString()) == -1){
                     helperDB.addNewUser(username.getText().toString() , password.getText().toString() , email.getText().toString());
                     Toast.makeText(SignUp.this, "Successfully Added New User", Toast.LENGTH_SHORT).show();
-                    isLoggedIn = true;
-                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putBoolean("isLoggedIn", isLoggedIn);
-                    editor.apply();
+//                    isLoggedIn = true;
+//                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = preferences.edit();
+//                    editor.putBoolean("isLoggedIn", isLoggedIn);
+//                    editor.apply();
+                    long id = helperDB.userIndex(username.getText().toString(), password.getText().toString());
+                    preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
+                    preferences.edit().putLong("connectedId", id).apply();
+
+
                     startActivity(in1);
                     finish();
                     mediaPlayer.start();
