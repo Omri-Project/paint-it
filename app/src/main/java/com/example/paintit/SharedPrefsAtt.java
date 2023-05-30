@@ -22,6 +22,7 @@ public class SharedPrefsAtt extends TouchDetector {
     private boolean soundEffectsEnabled;
     private boolean vibrationsEnabled;
     private boolean darkModeEnabled;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class SharedPrefsAtt extends TouchDetector {
         setContentView(R.layout.activity_shared_prefs_att);
 
         // Retrieve the SharedPreferences instance
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Initialize the preference values
         soundEffectsEnabled = preferences.getBoolean(KEY_SOUND_EFFECTS, true);

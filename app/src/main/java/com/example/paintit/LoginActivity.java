@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Menu;
@@ -30,7 +31,9 @@ public class LoginActivity extends TouchDetector {
     HelperDB helperDB;
     Intent intent;
     MediaPlayer mediaPlayer;
-    Boolean isLoggedIn;
+    private SharedPreferences preferences;
+
+//    Boolean isLoggedIn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,12 +44,13 @@ public class LoginActivity extends TouchDetector {
         password = findViewById(R.id.password);
         show_lv = findViewById(R.id.show_lv);
         create_acc = findViewById(R.id.create_acc);
-        isLoggedIn = false;
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(LoginActivity.this , GalleryActivity.class);
         Intent in1 = new Intent(LoginActivity.this , SignUp.class);
-        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+//        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+//        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+        preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
@@ -77,14 +81,16 @@ public class LoginActivity extends TouchDetector {
                 releaseInstance();
                 String checkUser = String.valueOf(username.getText());
                 String checkPass = String.valueOf(password.getText());
-                if (helperDB.ifExist(checkUser, checkPass)) {
-                    isLoggedIn = true;
+                long id = helperDB.userIndex(checkUser, checkPass);
+                if (id!=-1) {
+//                    isLoggedIn = true;
 
                     Toast.makeText(LoginActivity.this, "Entered Successfully", Toast.LENGTH_SHORT).show();
-                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putBoolean("isLoggedIn", isLoggedIn);
-                    editor.apply();
+//                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = preferences.edit();
+//                    editor.putBoolean("isLoggedIn", isLoggedIn);
+//                    editor.apply();
+                    preferences.edit().putLong("connectedId", id).apply();
                     startActivity(in);
                     finish();
                 }

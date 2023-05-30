@@ -17,6 +17,7 @@ public class StatisticsActivity extends TouchDetector {
     MediaPlayer mediaPlayer;
     Intent intent;
     TextView squares_value, time_value;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class StatisticsActivity extends TouchDetector {
         time_value = findViewById(R.id.time_value);
 //        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
 //        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(StatisticsActivity.this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(StatisticsActivity.this);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {

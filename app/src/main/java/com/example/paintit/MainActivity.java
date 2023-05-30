@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ public class MainActivity extends TouchDetector {
     Intent intent;
     MediaPlayer mediaPlayer;
     private boolean isLoggedIn = false;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,25 +23,21 @@ public class MainActivity extends TouchDetector {
 
         HelperDB helperDB = new HelperDB(getApplicationContext());
 
-        SharedPreferences preferences1 = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        boolean soundsEnabled = preferences1.getBoolean("sounds_enabled", true);
-
-        SharedPreferences preferencess = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        boolean codeExecuted = preferencess.getBoolean("code_executed", false);
+        preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
+        boolean codeExecuted = preferences.getBoolean("CodeExecuted", false);
 
         if (!codeExecuted) {
-            SharedPreferences.Editor editor = preferencess.edit();
-            editor.putBoolean("code_executed", true);
             helperDB.addPredefinedPainting();
-            editor.apply();
+            preferences.edit().putBoolean("CodeExecuted", true).apply();
         }
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         }
 
-        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        isLoggedIn = preferences.getBoolean("isLoggedIn", false);
+//        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+//        isLoggedIn = preferences.getBoolean("isLoggedIn", false);
     }
 
     public void goToGallery(View view) {

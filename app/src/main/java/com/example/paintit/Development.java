@@ -2,11 +2,11 @@ package com.example.paintit;
 
 public class Development {
     private int paintingId;
-    private int userId;
+    private long userId;
     private String coloredData;
     private String time;
 
-    public Development(int paintingId, int userId, String coloredData, String time) {
+    public Development(int paintingId, long userId, String coloredData, String time) {
         this.paintingId = paintingId;
         this.userId = userId;
         this.coloredData = coloredData;
@@ -17,7 +17,7 @@ public class Development {
         return paintingId;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 

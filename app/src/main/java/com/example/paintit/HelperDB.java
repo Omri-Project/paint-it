@@ -108,8 +108,7 @@ public class HelperDB extends SQLiteOpenHelper {
         List<Drawing> drawingsList = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(PAINTING_TABLE, PAINTING_COLUMN, null, null, null, null, null);
+        Cursor cursor = db.query(PAINTING, PAINTING_COLUMN, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -152,32 +151,48 @@ public class HelperDB extends SQLiteOpenHelper {
 
     public List<Development> getAllDevelopments() {
         List<Development> developments = new ArrayList<>();
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = null;
+        cursor = db.query(DEVELOPMENT_TABLE, DEVELOPMENT_COLUMN, null, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int paintingId = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_PAINTING));
+                int userId = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_USER));
+                String coloredData = cursor.getString(cursor.getColumnIndexOrThrow(DEVELOPMENT_COLORED));
+                String time = cursor.getString(cursor.getColumnIndexOrThrow(DEVELOPMENT_TIME));
 
-        try {
-            cursor = db.query(DEVELOPMENT_TABLE, DEVELOPMENT_COLUMN, null, null, null, null, null);
-
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    int paintingId = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_PAINTING));
-                    int userId = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_USER));
-                    String coloredData = cursor.getString(cursor.getColumnIndexOrThrow(DEVELOPMENT_COLORED));
-                    String time = cursor.getString(cursor.getColumnIndexOrThrow(DEVELOPMENT_TIME));
-
-                    Development development = new Development(paintingId, userId, coloredData, time);
-                    developments.add(development);
-                } while (cursor.moveToNext());
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
+                Development development = new Development(paintingId, userId, coloredData, time);
+                developments.add(development);
+            } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
 
         return developments;
     }
+    public List<Development> getUserDevelopments(long userId) {
+        List<Development> developments = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        String selection = DEVELOPMENT_USER + " =? ";
+        String[] selectionArgs = {""+userId};
+        cursor = db.query(DEVELOPMENT_TABLE, DEVELOPMENT_COLUMN, selection, null, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int paintingId = cursor.getInt(cursor.getColumnIndexOrThrow(DEVELOPMENT_PAINTING));
+                String coloredData = cursor.getString(cursor.getColumnIndexOrThrow(DEVELOPMENT_COLORED));
+                String time = cursor.getString(cursor.getColumnIndexOrThrow(DEVELOPMENT_TIME));
+
+                Development development = new Development(paintingId, userId, coloredData, time);
+                developments.add(development);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return developments;
+    }
+
 
 
     public String getDevelopment(int paintingId, long userId) {
