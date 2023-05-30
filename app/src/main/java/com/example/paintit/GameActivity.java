@@ -49,6 +49,10 @@ public class GameActivity extends TouchDetector {
     private int chosenColor;
     private LinearLayout scrollBar;
     private Timer timer;
+    private Date time;
+    private int id;
+    private int pixelNum;
+    private int clickedNum;
     private Intent intent;
     private boolean soundsEnabled;
     private SharedPreferences preferences;
@@ -65,7 +69,7 @@ public class GameActivity extends TouchDetector {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         intent = getIntent();
-        int id = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra("id", 0);
         helperDB = new HelperDB(getApplicationContext());
         String pixelData = helperDB.getPaintingPixels(id);
         String colorsData = helperDB.getPaintingColors(id);
@@ -84,6 +88,12 @@ public class GameActivity extends TouchDetector {
         for (int i = 1; i < colors.length; i++) {
             final Button color = new Button(this);
             GradientDrawable circle = new GradientDrawable();
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(10, 10, 10, 10);
+            color.setLayoutParams(params);
             ViewTreeObserver vto = color.getViewTreeObserver();
             vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -91,28 +101,26 @@ public class GameActivity extends TouchDetector {
                     color.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     int width = color.getWidth();
                     int height = color.getHeight();
-                    int size = Math.min(width, height);
+                    int size = Math.max(width, height);
+                    size = (int) (size * 0.75);
                     color.getLayoutParams().width = size;
                     color.getLayoutParams().height = size;
                     color.requestLayout();
                     int cornerRadius = size / 2;
                     circle.setCornerRadius(cornerRadius);
+                    circle.setStroke(3  , Color.BLACK); // Set the border width and color
                     color.setBackground(circle);
-                    int textSize = size / 3;  // Adjust the divisor as needed for the desired text size
+                    int textSize = size / 8;
                     color.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
                 }
             });
 
             circle.setColor(Color.parseColor(colors[i]));
-            color.setPadding(50, 50, 50, 50);
+            color.setPadding(10, 10, 10, 10);
             color.setText("" + (i));
-            if (colors[i].equals("#000000")) {
+            if (colors[i].equals("#000000") || colors[i].equals("#5A3F26") || colors[i].equals("#6E4D30") || colors[i].equals("#142632") || colors[i].equals("#346933") || colors[i].equals("#2D4F2A") || colors[i].equals("#213C0F") || colors[i].equals("#46744F")){
                 color.setTextColor(Color.WHITE);
             }
-
-
-
-
             color.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -176,10 +184,14 @@ public class GameActivity extends TouchDetector {
                             shape.setShape(GradientDrawable.RECTANGLE);
                             shape.setStroke(1, Color.BLACK);
                             button.setBackground(shape);
+                            clickedNum++;
                             button.setBackgroundColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())]));
                             button.setTextColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())]));
                             button.setClickable(false);
                             mediaPlayer.start();
+                            if (clickedNum == pixelNum){
+                                Toast.makeText(GameActivity.this, "meow", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
@@ -192,6 +204,34 @@ public class GameActivity extends TouchDetector {
 
         // Initialize the gesture detector
         gestureDetector = new GestureDetector(this, new GestureListener());
+
+
+
+        SharedPreferences preferencess = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        boolean codeExecuted = preferencess.getBoolean("static_pixels", false);
+
+        if (!codeExecuted) {
+            SharedPreferences.Editor editor = preferencess.edit();
+            editor.putBoolean("static_pixels", true);
+            if (id == 1){
+                pixelNum = 146;
+            }
+            else if (id == 2){
+                pixelNum = 554;
+            }
+            else if (id == 3){
+                pixelNum = 114;
+            }
+            else if (id == 4){
+                pixelNum = 4105;
+            }
+            else if (id == 5){
+                pixelNum = 1117;
+            }
+            editor.apply();
+        }
+
+
     }
 
     @Override

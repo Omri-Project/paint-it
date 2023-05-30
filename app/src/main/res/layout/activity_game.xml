@@ -34,12 +34,21 @@
 
     </ScrollView>
 
-    <HorizontalScrollView
-        android:id="@+id/colorsBar"
-        android:overScrollMode="always"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </HorizontalScrollView>
+        android:layout_height="wrap_content"
+        android:background="@drawable/border">
+
+        <HorizontalScrollView
+            android:id="@+id/colorsBar"
+            android:overScrollMode="always"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </HorizontalScrollView>
+
+    </FrameLayout>
+
 
 </LinearLayout>
 
