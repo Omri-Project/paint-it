@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.paintit.databinding.SettingsBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -20,6 +22,8 @@ public class GalleryActivity extends TouchDetector {
     Intent intent;
     MediaPlayer mediaPlayer;
     Boolean isLoggedIn = true;
+    Boolean soundsEnabled;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +33,8 @@ public class GalleryActivity extends TouchDetector {
         ViewPager2 viewPager2 = findViewById(R.id.view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
-        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
+        preferences = PreferenceManager.getDefaultSharedPreferences(GalleryActivity.this);
+        soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
@@ -58,45 +62,49 @@ public class GalleryActivity extends TouchDetector {
     }
     @Override
     public boolean onMenuOpened(int featureId, Menu menu){
-        mediaPlayer.start();
-        releaseInstance();
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
+        }
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuSettings){
-            intent = new Intent(this, SettingsActivity.class);
-            mediaPlayer.start();
-            releaseInstance();
+            intent = new Intent(this, SharedPrefsAtt.class);
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             startActivity(intent);
         } else  if (id == R.id.menuRules){
             intent = new Intent(this, RulesActivity.class);
-            mediaPlayer.start();
-            releaseInstance();
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             startActivity(intent);
         } else if (id == R.id.menuShare){
             intent = new Intent(Intent.ACTION_SEND);
-            mediaPlayer.start();
-            releaseInstance();
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             intent.setType("text/plain");
             if (intent != null){
                 intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");
                 startActivity(Intent.createChooser(intent,"Share with"));
             }
         } else if (id == R.id.logout) {
-            mediaPlayer.start();
-            releaseInstance();
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             isLoggedIn = false;
-            SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("isLoggedIn", isLoggedIn);
-            editor.apply();
+            preferences = PreferenceManager.getDefaultSharedPreferences(GalleryActivity.this);
+            preferences.edit().putLong("connectedId", -1).apply();
             Intent in = new Intent(GalleryActivity.this , LoginActivity.class);
             startActivity(in);
         } else {
-            mediaPlayer.start();
-            releaseInstance();
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             Toast.makeText(GalleryActivity.this,"This option is unavailable right now",Toast.LENGTH_SHORT).show();
         }
         return true;

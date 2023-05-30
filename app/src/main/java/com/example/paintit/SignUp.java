@@ -38,8 +38,6 @@ public class SignUp extends TouchDetector {
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(SignUp.this , LoginActivity.class);
         Intent in1 = new Intent(SignUp.this , GalleryActivity.class);
-//        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-//        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
         preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
@@ -51,16 +49,18 @@ public class SignUp extends TouchDetector {
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                mediaPlayer.start();
-                releaseInstance();
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
             }
         });
 
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                mediaPlayer.start();
-                releaseInstance();
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
             }
         });
 
@@ -69,8 +69,9 @@ public class SignUp extends TouchDetector {
             public void onClick(View v) {
                 startActivity(in);
                 finish();
-                mediaPlayer.start();
-                releaseInstance();
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
             }
         });
 
@@ -81,32 +82,27 @@ public class SignUp extends TouchDetector {
                 if (username.getText().toString().equals("") || username.getText().toString().equals(null)
                         || password.getText().toString().equals("") || password.getText().toString().equals(null)
                         || email.getText().toString().equals("") || email.getText().toString().equals(null)) {
-                    mediaPlayer.start();
-                    releaseInstance();
+                    if (mediaPlayer != null) {
+                        mediaPlayer.start();
+                    }
                     Toast.makeText(SignUp.this, "Please Fill All Required Tabs", Toast.LENGTH_SHORT).show();
                 }
 
                 else if (helperDB.userIndex(username.getText().toString(), password.getText().toString()) == -1){
                     helperDB.addNewUser(username.getText().toString() , password.getText().toString() , email.getText().toString());
                     Toast.makeText(SignUp.this, "Successfully Added New User", Toast.LENGTH_SHORT).show();
-//                    isLoggedIn = true;
-//                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = preferences.edit();
-//                    editor.putBoolean("isLoggedIn", isLoggedIn);
-//                    editor.apply();
                     preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
-
                     preferences.edit().putLong("connectedId", helperDB.userIndex(username.getText().toString(), password.getText().toString())).apply();
-
-
                     startActivity(in1);
                     finish();
-                    mediaPlayer.start();
-                    releaseInstance();
+                    if (mediaPlayer != null) {
+                        mediaPlayer.start();
+                    }
                 }
                 else {
-                    mediaPlayer.start();
-                    releaseInstance();
+                    if (mediaPlayer != null) {
+                        mediaPlayer.start();
+                    }
                     Toast.makeText(SignUp.this, "Username Already Exists, Please Try With a Different Name", Toast.LENGTH_SHORT).show();
                 }
 

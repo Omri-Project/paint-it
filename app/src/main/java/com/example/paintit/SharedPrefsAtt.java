@@ -54,6 +54,7 @@ public class SharedPrefsAtt extends TouchDetector {
                 soundEffectsEnabled = isChecked;
                 // Save the updated preference value
                 preferences.edit().putBoolean(KEY_SOUND_EFFECTS, soundEffectsEnabled).apply();
+
             }
         });
 

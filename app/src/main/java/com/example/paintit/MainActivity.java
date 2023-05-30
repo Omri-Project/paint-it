@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class MainActivity extends TouchDetector {
     Intent intent;
     MediaPlayer mediaPlayer;
-    private boolean isLoggedIn = false;
+    private long isLoggedIn = -1;
     private SharedPreferences preferences;
 
     @Override
@@ -36,12 +36,11 @@ public class MainActivity extends TouchDetector {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         }
 
-//        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-//        isLoggedIn = preferences.getBoolean("isLoggedIn", false);
+        isLoggedIn = preferences.getLong("connectedId", -1);
     }
 
     public void goToGallery(View view) {
-        if (isLoggedIn) {
+        if (isLoggedIn != -1) {
             intent = new Intent(this, GalleryActivity.class);
         } else {
             intent = new Intent(this, LoginActivity.class);
