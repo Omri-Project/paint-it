@@ -61,16 +61,18 @@ public class LoginActivity extends TouchDetector {
         username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                mediaPlayer.start();
-                releaseInstance();
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
             }
         });
 
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                mediaPlayer.start();
-                releaseInstance();
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
             }
         });
 
@@ -78,14 +80,13 @@ public class LoginActivity extends TouchDetector {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.start();
-                releaseInstance();
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
                 String checkUser = String.valueOf(username.getText());
                 String checkPass = String.valueOf(password.getText());
                 long id = helperDB.userIndex(checkUser, checkPass);
                 if (id!=-1) {
-//                    isLoggedIn = true;
-
                     Toast.makeText(LoginActivity.this, "Entered Successfully", Toast.LENGTH_SHORT).show();
 //                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
 //                    SharedPreferences.Editor editor = preferences.edit();
@@ -106,8 +107,9 @@ public class LoginActivity extends TouchDetector {
         show_lv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.start();
-                releaseInstance();
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
                 Toast.makeText(LoginActivity.this, helperDB.getAllUserDetails(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -116,8 +118,9 @@ public class LoginActivity extends TouchDetector {
         create_acc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.start();
-                releaseInstance();
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
                 startActivity(in1);
                 finish();
             }

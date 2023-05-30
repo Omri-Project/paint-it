@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,8 @@ public class Page1 extends Fragment {
     GridView gridView;
     MediaPlayer mediaPlayer;
     public Drawing[] drawings = new Drawing[5];
-
-
+    private SharedPreferences preferences;
+    private boolean soundEnabled;
     private GridViewAdapter adapter;
     Intent intent;
 
@@ -62,6 +63,8 @@ public class Page1 extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_page1, container, false);
         gridView = rootView.findViewById(R.id.gvnew);
         gridView.setAdapter(new GridViewAdapter(getActivity(), drawings));
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        soundEnabled = preferences.getBoolean("SoundEffects", true);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -78,9 +81,11 @@ public class Page1 extends Fragment {
     }
 
     private void playAudio() {
-        if (mediaPlayer == null) {
+        if (soundEnabled) {
             mediaPlayer = MediaPlayer.create(getActivity(), R.raw.button_click);
-        }mediaPlayer.start();
+        }if (mediaPlayer != null) {
+            mediaPlayer.start();
+        }
     }
 
 }

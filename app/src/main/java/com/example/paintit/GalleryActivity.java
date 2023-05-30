@@ -9,20 +9,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.paintit.databinding.SettingsBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 public class GalleryActivity extends TouchDetector {
-
     Intent intent;
     MediaPlayer mediaPlayer;
-//    Boolean isLoggedIn = true;
     SharedPreferences preferences;
-
+    Boolean soundsEnabled;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,15 +32,12 @@ public class GalleryActivity extends TouchDetector {
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
         preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
-        boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
-
+        soundsEnabled = preferences.getBoolean("SoundEffects", true);
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
             mediaPlayer = new MediaPlayer();
         }
-
-
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -52,7 +49,6 @@ public class GalleryActivity extends TouchDetector {
             }
         }).attach();
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.first_menu,menu);
@@ -60,8 +56,9 @@ public class GalleryActivity extends TouchDetector {
     }
     @Override
     public boolean onMenuOpened(int featureId, Menu menu){
-        mediaPlayer.start();
-        releaseInstance();
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
+        }
         return true;
     }
     @Override
@@ -71,16 +68,21 @@ public class GalleryActivity extends TouchDetector {
             intent = new Intent(this, SharedPrefsAtt.class);
             mediaPlayer.start();
             releaseInstance();
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             startActivity(intent);
         } else  if (id == R.id.menuRules){
             intent = new Intent(this, RulesActivity.class);
-            mediaPlayer.start();
-            releaseInstance();
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             startActivity(intent);
         } else if (id == R.id.menuShare){
             intent = new Intent(Intent.ACTION_SEND);
-            mediaPlayer.start();
-            releaseInstance();
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             intent.setType("text/plain");
             if (intent != null){
                 intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");
@@ -94,17 +96,19 @@ public class GalleryActivity extends TouchDetector {
 //            SharedPreferences.Editor editor = preferences.edit();
 //            editor.putBoolean("isLoggedIn", isLoggedIn);
 //            editor.apply();
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
             preferences.edit().putLong("connectedId", -1).apply();
             Intent in = new Intent(GalleryActivity.this , LoginActivity.class);
             startActivity(in);
         } else {
-            mediaPlayer.start();
-            releaseInstance();
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
             Toast.makeText(GalleryActivity.this,"This option is unavailable right now",Toast.LENGTH_SHORT).show();
         }
         return true;
     }
-
-
 }

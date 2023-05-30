@@ -91,15 +91,17 @@ public class GameActivity extends TouchDetector {
         colorsBar = findViewById(R.id.colorsBar);
         scrollBar = new LinearLayout(this);
         chosenColor = 0;
+
         for (int i = 1; i < colors.length; i++) {
             final Button color = new Button(this);
-            GradientDrawable circle = new GradientDrawable();
+            final GradientDrawable circle = new GradientDrawable();
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(10, 10, 10, 10);
             color.setLayoutParams(params);
+
             ViewTreeObserver vto = color.getViewTreeObserver();
             vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -114,13 +116,12 @@ public class GameActivity extends TouchDetector {
                     color.requestLayout();
                     int cornerRadius = size / 2;
                     circle.setCornerRadius(cornerRadius);
-                    circle.setStroke(3  , Color.BLACK); // Set the border width and color
+                    circle.setStroke(3, Color.BLACK); // Set the border width and color
                     color.setBackground(circle);
                     int textSize = size / 8;
                     color.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
                 }
             });
-
             int originalColor = Color.parseColor(colors[i]);
             circle.setColor(originalColor);
             color.setPadding(10, 10, 10, 10);
@@ -136,7 +137,9 @@ public class GameActivity extends TouchDetector {
             color.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mediaPlayer.start();
+                    if (mediaPlayer != null) {
+                        mediaPlayer.start();
+                    }
                     int numColor = Integer.parseInt((String) color.getText());
                     if (numColor != chosenColor) {
                         chosenColor = numColor;
@@ -169,8 +172,10 @@ public class GameActivity extends TouchDetector {
                     }
                 }
             });
+
             scrollBar.addView(color);
         }
+
         colorsBar.addView(scrollBar);
 
         preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
@@ -229,6 +234,8 @@ public class GameActivity extends TouchDetector {
                             mediaPlayer.start();
                             if (clickedNum == pixelNum){
                                 Toast.makeText(GameActivity.this, ""+clickedNum, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GameActivity.this, "WOW OMG", Toast.LENGTH_SHORT).show();
+
                             }
                         }
                     }
@@ -242,9 +249,6 @@ public class GameActivity extends TouchDetector {
 
         // Initialize the gesture detector
         gestureDetector = new GestureDetector(this, new GestureListener());
-
-
-
 
             if (id == 1){
                 pixelNum = 146;
@@ -261,7 +265,6 @@ public class GameActivity extends TouchDetector {
             else if (id == 5){
                 pixelNum = 1117;
             }
-
     }
 
     @Override

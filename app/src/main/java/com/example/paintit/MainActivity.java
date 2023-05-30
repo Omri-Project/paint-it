@@ -14,6 +14,7 @@ import android.widget.Toast;
 public class MainActivity extends TouchDetector {
     Intent intent;
     MediaPlayer mediaPlayer;
+    private long isLoggedIn = -1;
     private SharedPreferences preferences;
     private static final String PREFS_NAME = "maPrefs";
     private long loggedIn = -1;
@@ -44,22 +45,23 @@ public class MainActivity extends TouchDetector {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         }
 
-//        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-//        isLoggedIn = preferences.getBoolean("isLoggedIn", false);
+        isLoggedIn = preferences.getLong("connectedId", -1);
     }
 
     public void goToGallery(View view) {
         if (loggedIn != -1) {
-            intent = new Intent(this, GalleryActivity.class);
-        } else {
-            intent = new Intent(this, LoginActivity.class);
-        }
+            if (isLoggedIn != -1) {
+                intent = new Intent(this, GalleryActivity.class);
+            } else {
+                intent = new Intent(this, LoginActivity.class);
+            }
 
-        if (mediaPlayer != null) {
-            mediaPlayer.start();
-        }
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
 
-        startActivity(intent);
-        finish();
+            startActivity(intent);
+            finish();
+        }
     }
 }
