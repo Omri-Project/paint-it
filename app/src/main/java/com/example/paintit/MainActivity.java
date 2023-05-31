@@ -49,7 +49,6 @@ public class MainActivity extends TouchDetector {
     }
 
     public void goToGallery(View view) {
-        if (loggedIn != -1) {
             if (isLoggedIn != -1) {
                 intent = new Intent(this, GalleryActivity.class);
             } else {
@@ -62,6 +61,6 @@ public class MainActivity extends TouchDetector {
 
             startActivity(intent);
             finish();
-        }
+
     }
 }

@@ -88,10 +88,6 @@ public class LoginActivity extends TouchDetector {
                 long id = helperDB.userIndex(checkUser, checkPass);
                 if (id!=-1) {
                     Toast.makeText(LoginActivity.this, "Entered Successfully", Toast.LENGTH_SHORT).show();
-//                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = preferences.edit();
-//                    editor.putBoolean("isLoggedIn", isLoggedIn);
-//                    editor.apply();
                     preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
                     preferences.edit().putLong("connectedId", id).apply();
                     startActivity(in);

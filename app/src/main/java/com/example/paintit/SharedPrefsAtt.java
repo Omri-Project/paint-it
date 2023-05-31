@@ -101,10 +101,7 @@ public class SharedPrefsAtt extends TouchDetector {
             Intent in = new Intent(SharedPrefsAtt.this , GalleryActivity.class);
             startActivity(in);
             this.finish();
-//            if (soundsEnabled && mediaPlayer != null) {
-//                mediaPlayer.start();
-//            }
-//            return true;
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -73,6 +73,7 @@ public class GalleryActivity extends TouchDetector {
             mediaPlayer.start();
             releaseInstance();
             startActivity(intent);
+            finish();
         } else if (id == R.id.menuShare){
             intent = new Intent(Intent.ACTION_SEND);
             mediaPlayer.start();
@@ -85,11 +86,6 @@ public class GalleryActivity extends TouchDetector {
         } else if (id == R.id.logout) {
             mediaPlayer.start();
             releaseInstance();
-//            isLoggedIn = false;
-//            SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-//            SharedPreferences.Editor editor = preferences.edit();
-//            editor.putBoolean("isLoggedIn", isLoggedIn);
-//            editor.apply();
             preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
             preferences.edit().putLong("connectedId", -1).apply();
             Intent in = new Intent(GalleryActivity.this , LoginActivity.class);
