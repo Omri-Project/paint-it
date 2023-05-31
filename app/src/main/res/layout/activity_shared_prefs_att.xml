@@ -1,27 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SharedPrefsAtt">
+    android:divider="@android:drawable/divider_horizontal_bright"
+    android:showDividers="middle">
 
-    <Switch
-        android:id="@+id/switch_sound_effects"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sound Effects" />
+        android:layout_height="match_parent"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:orientation="vertical">
 
-    <Switch
-        android:id="@+id/switch_vibrations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Vibrations" />
+        <Switch
+            android:id="@+id/switch_sound_effects"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="50dp"
+            android:text="Sound Effects"
+            style="@style/PurpleSwitch" />
 
-    <Switch
-        android:id="@+id/switch_dark_mode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dark Mode" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/purple_500" />
+
+        <Switch
+            android:id="@+id/switch_vibrations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="25dp"
+            android:text="Vibrations"
+            style="@style/PurpleSwitch" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/purple_500" />
+
+        <Switch
+            android:id="@+id/switch_dark_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="25dp"
+            android:text="Dark Mode"
+            style="@style/PurpleSwitch" />
+
+    </LinearLayout>
+
 </LinearLayout>

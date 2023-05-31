@@ -73,18 +73,13 @@ public class SharedPrefsAtt extends TouchDetector {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 darkModeEnabled = isChecked;
-                // Save the updated preference value
                 preferences.edit().putBoolean(KEY_DARK_MODE, darkModeEnabled).apply();
-
-                // Apply the dark/light mode to the activity
                 if (darkModeEnabled) {
-                    // Set dark mode
                     setTheme(R.style.Theme_PaintIt_Dark);
                 } else {
-                    // Set light mode
                     setTheme(R.style.Theme_PaintIt);
                 }
-                recreate(); // Recreate the activity to apply the new theme
+                recreate();
             }
         });
     }

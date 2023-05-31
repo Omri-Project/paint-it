@@ -31,8 +31,6 @@ public class TouchDetector extends AppCompatActivity implements View.OnTouchList
         boolean vibrationsEnabled = preferences.getBoolean("Vibrations", true);
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
-        } else {
-            mediaPlayer =  new MediaPlayer();
         }
         if (vibrationsEnabled){
             timeV = 100;
@@ -51,12 +49,6 @@ public class TouchDetector extends AppCompatActivity implements View.OnTouchList
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//            SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-//            boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-//
-//            if (soundsEnabled && mediaPlayer != null) {
-//                mediaPlayer.start();
-//            }
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             boolean soundEffectsEnabled = preferences.getBoolean("SoundEffects", true);
             boolean vibrationsEnabled = preferences.getBoolean("Vibrations", true);

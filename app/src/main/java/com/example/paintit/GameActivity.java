@@ -116,7 +116,7 @@ public class GameActivity extends TouchDetector {
                     color.requestLayout();
                     int cornerRadius = size / 2;
                     circle.setCornerRadius(cornerRadius);
-                    circle.setStroke(3, Color.BLACK); // Set the border width and color
+                    circle.setStroke(3, Color.BLACK);
                     color.setBackground(circle);
                     int textSize = size / 8;
                     color.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
@@ -128,7 +128,7 @@ public class GameActivity extends TouchDetector {
             color.setText("" + (i));
             float[] hsv = new float[3];
             Color.colorToHSV(originalColor, hsv);
-            hsv[2] = Math.min(1.0f, hsv[2] + 0.2f); // Increase brightness by 0.2
+            hsv[2] = Math.min(1.0f, hsv[2] + 0.2f);
             int adjustedColor = Color.HSVToColor(hsv);
             circle.setColor(adjustedColor);
             if (hsv[2] < 0.5) {
@@ -155,19 +155,13 @@ public class GameActivity extends TouchDetector {
                         int newColor = Color.HSVToColor(hsv);
                         circle.setColor(newColor);
                         color.setBackground(circle);
-
-                        // Revert the color of the previous button
                         if (previousButton != null) {
                             int previousColor = originalColors.get(previousButton);
                             ((GradientDrawable) previousButton.getBackground()).setColor(previousColor);
                         }
-
-                        // Store the original color of the current button if not already stored
                         if (!originalColors.containsKey(color)) {
                             originalColors.put(color, buttonColor);
                         }
-
-                        // Set the current button as the previous button
                         previousButton = color;
                     }
                 }
@@ -186,17 +180,11 @@ public class GameActivity extends TouchDetector {
         } else {
             mediaPlayer = new MediaPlayer();
         }
-
-        // Update the grid layout to use the specified number of rows and columns
         buttonGrid.setRowCount(numRows);
         buttonGrid.setColumnCount(numColumns);
-
-        // Calculate the button size based on the screen width and number of columns
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int screenWidth = displayMetrics.widthPixels;
         buttonSize = screenWidth / 15;
-
-        // Create the buttons and add them to the grid
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
                 final Button button = new Button(this);
@@ -231,9 +219,11 @@ public class GameActivity extends TouchDetector {
                             button.setBackgroundColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())]));
                             button.setTextColor(Color.parseColor(colors[Integer.parseInt((String) button.getText())]));
                             button.setClickable(false);
-                            mediaPlayer.start();
+                            if (mediaPlayer != null){
+                                mediaPlayer.start();
+                            }
+                            Toast.makeText(GameActivity.this, ""+clickedNum, Toast.LENGTH_SHORT).show();
                             if (clickedNum == pixelNum){
-                                Toast.makeText(GameActivity.this, ""+clickedNum, Toast.LENGTH_SHORT).show();
                                 Toast.makeText(GameActivity.this, "WOW OMG", Toast.LENGTH_SHORT).show();
 
                             }
@@ -243,11 +233,7 @@ public class GameActivity extends TouchDetector {
                 buttonGrid.addView(button);
             }
         }
-
-        // Initialize the scale gesture detector
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleGestureListener());
-
-        // Initialize the gesture detector
         gestureDetector = new GestureDetector(this, new GestureListener());
 
             if (id == 1){
