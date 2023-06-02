@@ -72,6 +72,13 @@ public class GameActivity extends TouchDetector {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
+        boolean darkModeEnabled = preferences.getBoolean("DarkMode", false);
+        if (darkModeEnabled) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         intent = getIntent();
@@ -79,7 +86,6 @@ public class GameActivity extends TouchDetector {
         helperDB = new HelperDB(getApplicationContext());
         String pixelData = helperDB.getPaintingPixels(id);
         String colorsData = helperDB.getPaintingColors(id);
-        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         userId = preferences.getLong("connectedId", 0);
         Development devData = helperDB.getDevelopment(id, userId);
         String isColoredData = devData.getColoredData();
@@ -196,7 +202,6 @@ public class GameActivity extends TouchDetector {
                 GradientDrawable shape = new GradientDrawable();
                 if (isColored[i][j] == 0) {
                     button.setBackgroundColor(Color.WHITE);
-                    button.setTextColor(Color.BLACK);
                     shape.setStroke(1, Color.BLACK);
                 } else {
                     button.setTextColor(Color.parseColor(colors[pixels[i][j]]));
@@ -205,7 +210,17 @@ public class GameActivity extends TouchDetector {
                 shape.setShape(GradientDrawable.RECTANGLE);
                 button.setBackground(shape);
                 if (!button.isClickable()) {
-                    shape.setColor(Color.parseColor(colors[pixels[i][j]]));
+                    if (Color.parseColor(colors[pixels[i][j]])==Color.WHITE){
+                        if (darkModeEnabled){
+                            //you can change the color
+                            shape.setColor(Color.BLACK);
+                        } else {
+                            shape.setColor(Color.WHITE);
+                        }
+                        button.setTextColor(shape.getColor());
+                    } else {
+                        shape.setColor(Color.parseColor(colors[pixels[i][j]]));
+                    }
                     button.setBackground(shape);
                 }
                 button.setLayoutParams(new GridLayout.LayoutParams(new ViewGroup.LayoutParams(buttonSize, buttonSize)));
@@ -267,6 +282,8 @@ public class GameActivity extends TouchDetector {
         switch (item.getItemId()) {
             case R.id.menuBack:
                 saveDevelopmentStatus();
+                Intent intent1 = new Intent(this, GalleryActivity.class);
+                startActivity(intent1);
                 if (mediaPlayer != null) {
                     mediaPlayer.start();
                 }

@@ -10,6 +10,9 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.ComponentName;
+import android.content.pm.PackageManager;
+
 
 public class SharedPrefsAtt extends TouchDetector {
 
@@ -25,7 +28,13 @@ public class SharedPrefsAtt extends TouchDetector {
     private boolean vibrationsEnabled;
     private boolean darkModeEnabled;
     private SharedPreferences preferences;
-
+    private void updateTheme() {
+        if (darkModeEnabled) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +72,7 @@ public class SharedPrefsAtt extends TouchDetector {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 darkModeEnabled = isChecked;
                 preferences.edit().putBoolean(KEY_DARK_MODE, darkModeEnabled).apply();
-                if (darkModeEnabled) {
-                    setTheme(R.style.DarkTheme);
-                } else {
-                    setTheme(R.style.AppTheme);
-                }
+                updateTheme();
                 recreate();
             }
         });

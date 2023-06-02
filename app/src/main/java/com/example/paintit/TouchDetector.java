@@ -49,15 +49,15 @@ public class TouchDetector extends AppCompatActivity implements View.OnTouchList
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
             boolean soundEffectsEnabled = preferences.getBoolean("SoundEffects", true);
             boolean vibrationsEnabled = preferences.getBoolean("Vibrations", true);
             if (soundEffectsEnabled && mediaPlayer != null){
                 mediaPlayer.start();
             }
-            if (timeV != 100 && vibrationsEnabled){
+            if (vibrator != null && vibrationsEnabled){
                 vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibrator.vibrate(timeV);
+                vibrator.vibrate(100);
             }
         }
         return true;
