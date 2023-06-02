@@ -31,30 +31,20 @@ public class SharedPrefsAtt extends TouchDetector {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shared_prefs_att);
 
-        // Retrieve the SharedPreferences instance
         preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
-
-        // Initialize the preference values
         soundEffectsEnabled = preferences.getBoolean(KEY_SOUND_EFFECTS, true);
         vibrationsEnabled = preferences.getBoolean(KEY_VIBRATIONS, true);
         darkModeEnabled = preferences.getBoolean(KEY_DARK_MODE, false);
-
-        // Retrieve the Switch views from the layout
         soundEffectsSwitch = findViewById(R.id.switch_sound_effects);
         vibrationsSwitch = findViewById(R.id.switch_vibrations);
         darkModeSwitch = findViewById(R.id.switch_dark_mode);
-
-        // Set the initial states of the switches based on the preference values
         soundEffectsSwitch.setChecked(soundEffectsEnabled);
         vibrationsSwitch.setChecked(vibrationsEnabled);
         darkModeSwitch.setChecked(darkModeEnabled);
-
-        // Set the listeners for the switches to update the preference values
         soundEffectsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 soundEffectsEnabled = isChecked;
-                // Save the updated preference value
                 preferences.edit().putBoolean(KEY_SOUND_EFFECTS, soundEffectsEnabled).apply();
 
             }
@@ -64,7 +54,6 @@ public class SharedPrefsAtt extends TouchDetector {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 vibrationsEnabled = isChecked;
-                // Save the updated preference value
                 preferences.edit().putBoolean(KEY_VIBRATIONS, vibrationsEnabled).apply();
             }
         });
@@ -75,9 +64,9 @@ public class SharedPrefsAtt extends TouchDetector {
                 darkModeEnabled = isChecked;
                 preferences.edit().putBoolean(KEY_DARK_MODE, darkModeEnabled).apply();
                 if (darkModeEnabled) {
-                    setTheme(R.style.Theme_PaintIt_Dark);
+                    setTheme(R.style.DarkTheme);
                 } else {
-                    setTheme(R.style.Theme_PaintIt);
+                    setTheme(R.style.AppTheme);
                 }
                 recreate();
             }

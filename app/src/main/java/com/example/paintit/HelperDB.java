@@ -399,6 +399,17 @@ public class HelperDB extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteDevelopment(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = "developmentPainting = ?";
+        String[] selectionArgs = {String.valueOf(userId)};
+        db.delete(DEVELOPMENT, selection, selectionArgs);
+        db.close();
+    }
+
+
+
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer) {
         db.execSQL("DROP TABLE IF EXISTS " + USERS);
