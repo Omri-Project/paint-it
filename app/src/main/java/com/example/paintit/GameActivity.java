@@ -1,8 +1,10 @@
 package com.example.paintit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -262,11 +264,19 @@ public class GameActivity extends TouchDetector {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        saveDevelopmentStatus();
-        if (mediaPlayer != null) {
-            mediaPlayer.start();
-        }
-        return true;
+        switch (item.getItemId()) {
+            case R.id.menuBack:
+                saveDevelopmentStatus();
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
+            return true;
+            case R.id.menuReset:
+                resetDialog();
+                return true;
+            default:
+            return super.onOptionsItemSelected(item);
+    }
     }
 
     @Override
@@ -342,4 +352,25 @@ public class GameActivity extends TouchDetector {
         gestureDetector.onTouchEvent(event);
         return true;
     }
+    private void resetDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Reset Painting");
+        builder.setMessage("Do you want to reset the painting?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                helperDB.deleteDevelopment(id);
+                recreate();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Cancel dialog
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
 }
+
