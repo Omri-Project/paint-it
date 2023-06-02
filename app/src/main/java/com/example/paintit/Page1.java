@@ -34,11 +34,11 @@ public class Page1 extends Fragment {
     private boolean soundEnabled;
     private GridViewAdapter adapter;
     Intent intent;
+    HelperDB helperDB;
 
     public Page1() {
         // Required empty public constructor
     }
-
 
     public static Page1 newInstance(String param1, String param2) {
         Page1 fragment = new Page1();
@@ -50,29 +50,33 @@ public class Page1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        }
-
-
+        helperDB = new HelperDB(getContext());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        for (int i = 0; i < drawings.length; i++){
-            drawings[i] = new Drawing((i+1), "Cat", null ,null);
+        for (int i = 0; i < drawings.length; i++) {
+            drawings[i] = new Drawing((i + 1), "Cat", null, null);
         }
 
         View rootView = inflater.inflate(R.layout.fragment_page1, container, false);
         gridView = rootView.findViewById(R.id.gvnew);
-        gridView.setAdapter(new GridViewAdapter(getActivity(), drawings));
+
+        boolean[] showImages = new boolean[drawings.length];
+        for (int i = 0; i < drawings.length; i++) {
+            showImages[i] = true; // Always show images in Page1
+        }
+
+        gridView.setAdapter(new GridViewAdapter(getActivity(), drawings, showImages));
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         soundEnabled = preferences.getBoolean("SoundEffects", true);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-                Toast.makeText(getActivity(), "" + (position+1), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "" + (position + 1), Toast.LENGTH_SHORT).show();
                 Intent intent1 = new Intent(getActivity(), GameActivity.class);
                 playAudio();
-                intent1.putExtra("id", (position+1));
+                intent1.putExtra("id", (position + 1));
                 startActivity(intent1);
                 getActivity().finish();
             }
@@ -81,12 +85,14 @@ public class Page1 extends Fragment {
         return rootView;
     }
 
+
+
     private void playAudio() {
         if (soundEnabled) {
             mediaPlayer = MediaPlayer.create(getActivity(), R.raw.button_click);
-        }if (mediaPlayer != null) {
+        }
+        if (mediaPlayer != null) {
             mediaPlayer.start();
         }
     }
-
 }

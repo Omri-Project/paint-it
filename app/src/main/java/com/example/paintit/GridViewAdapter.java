@@ -17,36 +17,49 @@ import java.util.ArrayList;
 public class GridViewAdapter extends BaseAdapter {
     private Context context;
     private Drawing[] drawings;
-    LayoutInflater inflater;
-    int[] drawables = {R.drawable.duck, R.drawable.canvas_pixle_art, R.drawable.mushroom, R.drawable.frog, R.drawable.nyancat};
+    private boolean[] showImages;
+    private LayoutInflater inflater;
+    private int[] drawables = {R.drawable.duck, R.drawable.canvas_pixle_art, R.drawable.mushroom, R.drawable.frog, R.drawable.nyancat};
 
-
-    public GridViewAdapter (Context context, Drawing[] drawings){
+    public GridViewAdapter(Context context, Drawing[] drawings, boolean[] showImages) {
         this.context = context;
         this.drawings = drawings;
-        inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        this.showImages = showImages;
+        inflater = LayoutInflater.from(context);
     }
+
     @Override
     public int getCount() {
         return drawings.length;
     }
+
     @Override
     public Object getItem(int i) {
         return drawings[i];
     }
+
     @Override
     public long getItemId(int i) {
         return i;
     }
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        if (view == null){
-            view = inflater.inflate(R.layout.single_drawing_layout, null);
+        if (view == null) {
+            view = inflater.inflate(R.layout.single_drawing_layout, viewGroup, false);
         }
+
         ImageView img = view.findViewById(R.id.imageView2);
-        img.setImageResource(drawables[i]);
+        if (showImages[i]) {
+            img.setImageResource(drawables[i]);
+            img.setVisibility(View.VISIBLE);
+        } else {
+            img.setVisibility(View.GONE);
+        }
 
         return view;
     }
 }
+
+
+

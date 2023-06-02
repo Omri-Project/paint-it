@@ -65,21 +65,22 @@ public class HelperDB extends SQLiteOpenHelper {
     private static final String DEVELOPMENT_PAINTING = "developmentPainting";
     private static final String DEVELOPMENT_USER = "developmentUser";
     private static final String DEVELOPMENT_COLORED = "developmentColored";
-    private static final String DEVELOPMENT_TIME = "developmentTime";
     private static final String DEVELOPMENT_CLICKED = "developmentClicked";
+    private static final String DEVELOPMENT_TIME = "developmentTime";
 
 
-    private static final String DEVELOPMENT_TABLE = " CREATE TABLE IF NOT EXISTS " + DEVELOPMENT + "("
+    private static final String DEVELOPMENT_TABLE = "CREATE TABLE IF NOT EXISTS " + DEVELOPMENT + "("
             + DEVELOPMENT_PAINTING + " INTEGER,"
             + DEVELOPMENT_USER + " INTEGER,"
             + DEVELOPMENT_COLORED + " TEXT,"
             + DEVELOPMENT_CLICKED + " INTEGER,"
             + DEVELOPMENT_TIME + " INTEGER,"
-            + "FOREIGN KEY (" + DEVELOPMENT_PAINTING + ") REFERENCES PAINTING(PAINTING_ID),"
-            + "FOREIGN KEY (" + DEVELOPMENT_USER + ") REFERENCES USERS(USER_ID)"
-            + ");";
+            + "FOREIGN KEY (" + DEVELOPMENT_PAINTING + ") REFERENCES " + PAINTING + "(" + PAINTING_ID + "),"
+            + "FOREIGN KEY (" + DEVELOPMENT_USER + ") REFERENCES " + USERS + "(" + USER_ID + ")"
+            + ")";
 
-    private static final String[] DEVELOPMENT_COLUMN = {DEVELOPMENT_PAINTING, DEVELOPMENT_USER, DEVELOPMENT_COLORED,DEVELOPMENT_TIME, DEVELOPMENT_CLICKED};
+
+    private static final String[] DEVELOPMENT_COLUMN = {DEVELOPMENT_PAINTING, DEVELOPMENT_USER, DEVELOPMENT_COLORED, DEVELOPMENT_CLICKED, DEVELOPMENT_TIME};
 
 
     public HelperDB(Context context) {
@@ -347,6 +348,17 @@ public class HelperDB extends SQLiteOpenHelper {
 
         return developments;
     }
+
+    public boolean isPaintingStarted(int paintingId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = "developmentPainting = ?";
+        String[] selectionArgs = { String.valueOf(paintingId) };
+        Cursor cursor = db.query("development", null, selection, selectionArgs, null, null, null);
+        boolean started = cursor.moveToFirst();
+        cursor.close();
+        return started;
+    }
+
 
 
     public Development getDevelopment(int paintingId, long userId) {
