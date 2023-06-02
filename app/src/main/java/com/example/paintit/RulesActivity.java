@@ -15,16 +15,23 @@ import android.view.View;
 public class RulesActivity extends TouchDetector {
     Intent intent;
     MediaPlayer mediaPlayer;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
+        boolean darkModeEnabled = preferences.getBoolean("DarkMode", false);
+        if (darkModeEnabled) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rules);
         intent  = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
 //        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        SharedPreferences preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {

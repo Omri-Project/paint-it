@@ -22,6 +22,13 @@ public class MainActivity extends TouchDetector {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
+        boolean darkModeEnabled = preferences.getBoolean("DarkMode", false);
+        if (darkModeEnabled) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -29,7 +36,6 @@ public class MainActivity extends TouchDetector {
 //        getApplicationContext().deleteDatabase("Database");
 
 
-        preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
         boolean codeExecuted = preferences.getBoolean("CodeExecuted", false);
         loggedIn = preferences.getLong("connectedId", -1);

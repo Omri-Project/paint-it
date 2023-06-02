@@ -239,7 +239,7 @@ public class GameActivity extends TouchDetector {
                             if (mediaPlayer != null){
                                 mediaPlayer.start();
                             }
-                            Toast.makeText(GameActivity.this, ""+clickedNum, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(GameActivity.this, ""+clickedNum, Toast.LENGTH_SHORT).show();
                             if (clickedNum == pixelNum){
                                 Toast.makeText(GameActivity.this, "WOW OMG", Toast.LENGTH_SHORT).show();
                                 Intent in = new Intent(GameActivity.this , StatisticsActivity.class);

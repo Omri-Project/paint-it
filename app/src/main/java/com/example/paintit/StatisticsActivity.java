@@ -22,6 +22,13 @@ public class StatisticsActivity extends TouchDetector {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
+        boolean darkModeEnabled = preferences.getBoolean("DarkMode", false);
+        if (darkModeEnabled) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
@@ -29,9 +36,7 @@ public class StatisticsActivity extends TouchDetector {
         intent = new Intent(StatisticsActivity.this, GalleryActivity.class);
         squares_value = findViewById(R.id.squares_value);
         time_value = findViewById(R.id.time_value);
-//        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-//        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
+
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {
