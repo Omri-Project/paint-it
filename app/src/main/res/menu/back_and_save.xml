@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="Back and Save"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menuReset"
+        android:title="Reset"
+        app:showAsAction="always" />
 </menu>

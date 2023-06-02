@@ -5,10 +5,11 @@
         <item name="android:thumbTint">@color/purple_500</item>
     </style>
 
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="backgroundTint">@color/white</item>
         <item name="android:fontFamily">@font/pixlated</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -19,9 +20,10 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/purple_500</item>
     </style>
 
-    <style name="AppTheme.Dark" parent="Theme.AppCompat">
+    <style name="DarkTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="backgroundTint">@color/black</item>
         <item name="colorOnPrimary">@color/black</item>
         <item name="android:fontFamily">@font/pixlated</item>
         <!-- Secondary brand color. -->
