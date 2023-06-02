@@ -225,7 +225,8 @@ public class GameActivity extends TouchDetector {
                             Toast.makeText(GameActivity.this, ""+clickedNum, Toast.LENGTH_SHORT).show();
                             if (clickedNum == pixelNum){
                                 Toast.makeText(GameActivity.this, "WOW OMG", Toast.LENGTH_SHORT).show();
-
+                                Intent in = new Intent(GameActivity.this, StatisticsActivity.class);
+                                startActivity(in);
                             }
                         }
                     }
@@ -261,18 +262,7 @@ public class GameActivity extends TouchDetector {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        helperDB = new HelperDB(getApplicationContext());
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numColumns; j++) {
-                Button button = (Button) buttonGrid.getChildAt(i * numColumns + j);
-                if (!button.isClickable()) {
-                    isColored[i][j] = 1;
-                }
-            }
-        }
-        intent = getIntent();
-        int idPainting = intent.getIntExtra("id", 0);
-        helperDB.updateDevelopment(idPainting, userId, isColored);
+        saveDevelopmentStatus();
         Intent intent1 = new Intent(this, GalleryActivity.class);
         startActivity(intent1);
         if (mediaPlayer != null) {
@@ -324,7 +314,7 @@ public class GameActivity extends TouchDetector {
         }
         intent = getIntent();
         int idPainting = intent.getIntExtra("id", 0);
-        helperDB.updateDevelopment(idPainting, userId, isColored);
+        helperDB.updateDevelopment(idPainting, userId, isColored, clickedNum, 0);
     }
 
     private class ScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {

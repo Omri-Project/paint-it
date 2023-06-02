@@ -386,11 +386,13 @@ public class HelperDB extends SQLiteOpenHelper {
         return dev;
     }
 
-    public void updateDevelopment(int paintingId, long userId, int[][] isColored) {
+    public void updateDevelopment(int paintingId, long userId, int[][] isColored, int clicked, int time) {
         SQLiteDatabase db = this.getWritableDatabase();
         String colored = StringToArrayAdapter.arrayToString(isColored);
         ContentValues values = new ContentValues();
         values.put(DEVELOPMENT_COLORED, colored);
+        values.put(DEVELOPMENT_CLICKED, clicked);
+        values.put(DEVELOPMENT_TIME, time);
         String selection = DEVELOPMENT_PAINTING + " = ? AND " + DEVELOPMENT_USER + " = ? ";
         String[] selectionArgs = {String.valueOf(paintingId), String.valueOf(userId)};
         db.update(DEVELOPMENT, values, selection, selectionArgs);

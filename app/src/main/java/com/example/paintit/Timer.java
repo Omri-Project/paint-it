@@ -39,10 +39,9 @@ public class Timer {
     }
     public long[] format (long diff){
         long[] time = new long[4];
-        time[0] = diff/1000%60;
-        time[1] = diff/60000%60;
-        time[2] = diff/3600000%24;
-        time[3] = diff/86400000;
+        time[0] = diff/1000;
+        time[1] = time[0]/60;
+        time[2] = time[0]/3600;
         return time;
     }
 }
