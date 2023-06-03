@@ -40,7 +40,6 @@ public class SignUp extends TouchDetector {
         Intent in = new Intent(SignUp.this , LoginActivity.class);
         Intent in1 = new Intent(SignUp.this , GalleryActivity.class);
         preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
-        preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {

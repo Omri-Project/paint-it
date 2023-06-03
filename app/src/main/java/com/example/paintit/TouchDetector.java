@@ -26,17 +26,12 @@ public class TouchDetector extends AppCompatActivity implements View.OnTouchList
         view.setOnTouchListener(this);
         //SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
         //boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
-        boolean vibrationsEnabled = preferences.getBoolean("Vibrations", true);
         if (soundsEnabled) {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         }
-        if (vibrationsEnabled){
-            timeV = 100;
-        } else {
-            timeV = 0;
-        }
+
 
 
 //        if (soundsEnabled) {
@@ -51,13 +46,8 @@ public class TouchDetector extends AppCompatActivity implements View.OnTouchList
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             SharedPreferences preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
             boolean soundEffectsEnabled = preferences.getBoolean("SoundEffects", true);
-            boolean vibrationsEnabled = preferences.getBoolean("Vibrations", true);
             if (soundEffectsEnabled && mediaPlayer != null){
                 mediaPlayer.start();
-            }
-            if (vibrator != null && vibrationsEnabled){
-                vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibrator.vibrate(100);
             }
         }
         return true;

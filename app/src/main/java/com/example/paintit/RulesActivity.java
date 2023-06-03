@@ -30,8 +30,6 @@ public class RulesActivity extends TouchDetector {
         setContentView(R.layout.activity_rules);
         intent  = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-//        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {

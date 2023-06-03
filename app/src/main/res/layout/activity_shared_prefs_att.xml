@@ -23,20 +23,6 @@
             android:text="Sound Effects"
             style="@style/PurpleSwitch" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="25dp"
-            android:background="@color/purple_500" />
-
-        <Switch
-            android:id="@+id/switch_vibrations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginTop="25dp"
-            android:text="Vibrations"
-            style="@style/PurpleSwitch" />
 
         <View
             android:layout_width="match_parent"

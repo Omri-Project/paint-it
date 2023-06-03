@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +23,9 @@ public class GalleryActivity extends TouchDetector {
     Intent intent;
     MediaPlayer mediaPlayer;
     SharedPreferences preferences;
-    Boolean soundsEnabled;
+    boolean soundsEnabled;
+    boolean vibrationEnabled;
+    Vibrator vibrator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
@@ -44,6 +47,12 @@ public class GalleryActivity extends TouchDetector {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
             mediaPlayer = new MediaPlayer();
+        }
+        vibrationEnabled = preferences.getBoolean("Vibrations", true);
+        if (vibrationEnabled){
+            timeV = 100;
+        } else {
+            timeV = 0;
         }
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override

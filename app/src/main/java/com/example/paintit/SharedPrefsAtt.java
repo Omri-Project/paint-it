@@ -3,6 +3,7 @@ package com.example.paintit;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -25,8 +26,9 @@ public class SharedPrefsAtt extends TouchDetector {
     private Switch darkModeSwitch;
 
     private boolean soundEffectsEnabled;
-    private boolean vibrationsEnabled;
+    boolean soundsEnabled;
     private boolean darkModeEnabled;
+    MediaPlayer mediaPlayer;
     private SharedPreferences preferences;
     private void updateTheme() {
         if (darkModeEnabled) {
@@ -37,18 +39,19 @@ public class SharedPrefsAtt extends TouchDetector {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
+        darkModeEnabled = preferences.getBoolean("DarkMode", false);
+        if (darkModeEnabled) {
+            setTheme(R.style.DarkTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shared_prefs_att);
-
-        preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         soundEffectsEnabled = preferences.getBoolean(KEY_SOUND_EFFECTS, true);
-        vibrationsEnabled = preferences.getBoolean(KEY_VIBRATIONS, true);
-        darkModeEnabled = preferences.getBoolean(KEY_DARK_MODE, false);
         soundEffectsSwitch = findViewById(R.id.switch_sound_effects);
-        vibrationsSwitch = findViewById(R.id.switch_vibrations);
         darkModeSwitch = findViewById(R.id.switch_dark_mode);
         soundEffectsSwitch.setChecked(soundEffectsEnabled);
-        vibrationsSwitch.setChecked(vibrationsEnabled);
         darkModeSwitch.setChecked(darkModeEnabled);
         soundEffectsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -58,14 +61,11 @@ public class SharedPrefsAtt extends TouchDetector {
 
             }
         });
-
-        vibrationsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                vibrationsEnabled = isChecked;
-                preferences.edit().putBoolean(KEY_VIBRATIONS, vibrationsEnabled).apply();
-            }
-        });
+        if (soundsEnabled) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
+        } else {
+            mediaPlayer = new MediaPlayer();
+        }
 
         darkModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
