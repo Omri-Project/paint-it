@@ -33,19 +33,6 @@ public class HelperDB extends SQLiteOpenHelper {
 
     private static final String[] USER_COLUMN = {USER_ID, USERNAME, PASSWORD, EMAIL};
 
-    // Statistics
-
-    private static final String STATISTICS = "statistics";
-    private static final String STATISTICS_ID = "id";
-    private static final String STATISTICS_TIME = "time";
-    private static final String STATISTICS_SQUARES_PAINTED = "squares_painted";
-
-    private static final String STATISTICS_TABLE = " CREATE TABLE IF NOT EXISTS " + STATISTICS + " (" +
-            STATISTICS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            STATISTICS_TIME + " INTEGER NOT NULL, " +
-            STATISTICS_SQUARES_PAINTED + " INTEGER NOT NULL);";
-
-    private static final String[] STATISTICS_COLUMN = {STATISTICS_ID, STATISTICS_TIME, STATISTICS_SQUARES_PAINTED};
 
     private static final String PAINTING = "painting";
     private static final String PAINTING_ID = "paintingId";
@@ -91,7 +78,6 @@ public class HelperDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(USER_TABLE);
-        db.execSQL(STATISTICS_TABLE);
         db.execSQL(PAINTING_TABLE);
         db.execSQL(DEVELOPMENT_TABLE);
     }
@@ -176,22 +162,9 @@ public class HelperDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addNewStatistic(long time, int squaresPainted) {
-        SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(HelperDB.STATISTICS_TIME, time);
-        values.put(HelperDB.STATISTICS_SQUARES_PAINTED, squaresPainted);
-        db.insert(HelperDB.STATISTICS, null, values);
-        db.close();
-    }
 
-    public void deleteAllStats() {
-        SQLiteDatabase db = this.getWritableDatabase();
 
-        db.delete(HelperDB.STATISTICS, null, null);
-        db.close();
-    }
 
     public void addPainting(String paintingName, String paintingPixels, String paintingColors) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -262,24 +235,7 @@ public class HelperDB extends SQLiteOpenHelper {
 
         return "";
     }
-//    public List<User> getNumDrawings() {
-//        db = this.getReadableDatabase();
-//        List<User> users = new ArrayList<User>();
-//        String order = COLUMN_USER_ID + " ASC ";
-//        Cursor cursor = db.query(USER_TABLE, user_columns, null, null, null, null, order); // Cursor is our result
-//        if (cursor.getCount() > 0) {
-//            while (cursor.moveToNext()) {
-//                String username = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
-//                String password = cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD));
-//                long id = cursor.getLong(cursor.getColumnIndex(COLUMN_USER_ID));
-//                User user = new User(id, username, password);
-//                users.add(user);
-//            }
-//        }
-//        cursor.close();
-//        db.close();
-//        return users;
-//    }
+
 
     public String getPaintingColors(int paintingId) {
         String colors = null;
@@ -413,7 +369,6 @@ public class HelperDB extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer) {
         db.execSQL("DROP TABLE IF EXISTS " + USERS);
-        db.execSQL("DROP TABLE IF EXISTS " + STATISTICS);
         db.execSQL("DROP TABLE IF EXISTS " + PAINTING);
         db.execSQL("DROP TABLE IF EXISTS " + DEVELOPMENT);
         onCreate(db);
