@@ -53,6 +53,7 @@ public class GameActivity extends TouchDetector {
     private HelperDB helperDB;
     private HorizontalScrollView colorsBar;
     private int chosenColor;
+    private int darkOrNot;
     private LinearLayout scrollBar;
     private Timer timer = new Timer();
     private Date time;
@@ -74,7 +75,7 @@ public class GameActivity extends TouchDetector {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        timer.setStart(new java.util.Date());
+        timer.setStart(new Date());
         preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         boolean darkModeEnabled = preferences.getBoolean("DarkMode", false);
         if (darkModeEnabled) {
@@ -216,12 +217,18 @@ public class GameActivity extends TouchDetector {
                 if (!button.isClickable()) {
                     if (Color.parseColor(colors[pixels[i][j]])==Color.WHITE){
                         if (darkModeEnabled){
-                            //you can change the color
-                            shape.setColor(Color.BLACK);
+                            darkOrNot = 0;
+                            shape.setTint(Color.BLACK);
                         } else {
+                            darkOrNot = 1;
                             shape.setColor(Color.WHITE);
                         }
-                        button.setTextColor(shape.getColor());
+                        if (darkOrNot == 0){
+                            button.setTextColor(Color.BLACK);
+                        } else {
+                            button.setTextColor(Color.WHITE);
+                        }
+
                     } else {
                         shape.setColor(Color.parseColor(colors[pixels[i][j]]));
                     }
@@ -246,7 +253,7 @@ public class GameActivity extends TouchDetector {
 //                            Toast.makeText(GameActivity.this, ""+clickedNum, Toast.LENGTH_SHORT).show();
                             if (clickedNum == pixelNum){
                                 Toast.makeText(GameActivity.this, "WOW OMG", Toast.LENGTH_SHORT).show();
-                                timer.setEnd(new java.util.Date());
+                                timer.setEnd(new Date());
                                 helperDB.updateDevelopment(id, userId, isColored, clickedNum, timePassed+timer.diffrence());
                                 Intent in = new Intent(GameActivity.this , StatisticsActivity.class);
                                 in.putExtra("id", id);

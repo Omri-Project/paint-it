@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class RulesActivity extends TouchDetector {
-    Intent intent;
+    Intent intent, itnt;
     MediaPlayer mediaPlayer;
     SharedPreferences preferences;
 
@@ -29,6 +29,7 @@ public class RulesActivity extends TouchDetector {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rules);
         intent  = new Intent(this, MainActivity.class);
+        itnt = new Intent(this, GalleryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
@@ -50,7 +51,7 @@ public class RulesActivity extends TouchDetector {
         int id = item.getItemId();
         if (id == R.id.menuBack) {
             mediaPlayer.start();
-            this.finish();
+            startActivity(itnt);
 
         }
         return true;

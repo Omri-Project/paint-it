@@ -88,7 +88,7 @@ public class GalleryActivity extends TouchDetector {
             releaseInstance();
             intent.setType("text/plain");
             if (intent != null){
-                intent.putExtra(Intent.EXTRA_TEXT, "Try this cool app!");
+                intent.putExtra(Intent.EXTRA_TEXT, "You have to check this new App! It lets you paint art by pixels!! https://tinyurl.com/PaintItApp");
                 startActivity(Intent.createChooser(intent,"Share with"));
             }
         } else if (id == R.id.logout) {
