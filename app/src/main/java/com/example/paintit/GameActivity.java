@@ -55,7 +55,7 @@ public class GameActivity extends TouchDetector {
     private int chosenColor;
     private int darkOrNot;
     private LinearLayout scrollBar;
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
     private Date time;
     int timePassed;
     private int id;
@@ -68,7 +68,7 @@ public class GameActivity extends TouchDetector {
     private MediaPlayer mediaPlayer;
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
-    private float scaleFactor = 1.0f;
+    private final float scaleFactor = 1.0f;
     private float lastScrollX, lastScrollY;
 
     private long userId;

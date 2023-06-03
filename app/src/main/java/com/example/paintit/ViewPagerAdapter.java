@@ -10,12 +10,10 @@ public class ViewPagerAdapter extends FragmentStateAdapter{
     @NonNull
     @Override
     public Fragment createFragment (int position) {
-        switch (position) {
-            case 0:
-                return new Page1();
-            default:
-                return new Page2();
+        if (position == 0) {
+            return new Page1();
         }
+        return new Page2();
     }
     @Override
     public int getItemCount() { return 2; }

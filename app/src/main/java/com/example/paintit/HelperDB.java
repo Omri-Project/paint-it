@@ -33,7 +33,6 @@ public class HelperDB extends SQLiteOpenHelper {
 
     private static final String[] USER_COLUMN = {USER_ID, USERNAME, PASSWORD, EMAIL};
 
-
     private static final String PAINTING = "painting";
     private static final String PAINTING_ID = "paintingId";
     private static final String PAINTING_NAME = "paintingName";
@@ -162,10 +161,6 @@ public class HelperDB extends SQLiteOpenHelper {
         db.close();
     }
 
-
-
-
-
     public void addPainting(String paintingName, String paintingPixels, String paintingColors) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -235,7 +230,24 @@ public class HelperDB extends SQLiteOpenHelper {
 
         return "";
     }
-
+//    public List<User> getNumDrawings() {
+//        db = this.getReadableDatabase();
+//        List<User> users = new ArrayList<User>();
+//        String order = COLUMN_USER_ID + " ASC ";
+//        Cursor cursor = db.query(USER_TABLE, user_columns, null, null, null, null, order); // Cursor is our result
+//        if (cursor.getCount() > 0) {
+//            while (cursor.moveToNext()) {
+//                String username = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
+//                String password = cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD));
+//                long id = cursor.getLong(cursor.getColumnIndex(COLUMN_USER_ID));
+//                User user = new User(id, username, password);
+//                users.add(user);
+//            }
+//        }
+//        cursor.close();
+//        db.close();
+//        return users;
+//    }
 
     public String getPaintingColors(int paintingId) {
         String colors = null;
