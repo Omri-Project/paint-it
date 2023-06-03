@@ -1,7 +1,6 @@
 package com.example.paintit;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.GestureDetector;
@@ -26,17 +24,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
-
-import com.example.paintit.HelperDB;
-import com.example.paintit.R;
-import com.example.paintit.StringToArrayAdapter;
-import com.example.paintit.Timer;
-import com.example.paintit.TouchDetector;
-
-import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -56,7 +44,6 @@ public class GameActivity extends TouchDetector {
     private int darkOrNot;
     private LinearLayout scrollBar;
     private final Timer timer = new Timer();
-    private Date time;
     int timePassed;
     private int id;
     private int pixelNum;
@@ -68,8 +55,6 @@ public class GameActivity extends TouchDetector {
     private MediaPlayer mediaPlayer;
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
-    private final float scaleFactor = 1.0f;
-    private float lastScrollX, lastScrollY;
 
     private long userId;
 

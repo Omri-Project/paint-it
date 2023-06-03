@@ -1,13 +1,10 @@
 package com.example.paintit;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,16 +106,6 @@ public class HelperDB extends SQLiteOpenHelper {
     }
 
 
-    public boolean ifExist(String username, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM users WHERE username=? AND password=?";
-        String[] selectionArgs = {username, password};
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-        boolean exists = (cursor.getCount() > 0);
-        cursor.close();
-        db.close();
-        return exists;
-    }
     public long userIndex(String name, String password){
         SQLiteDatabase db = this.getReadableDatabase();
         String order = USER_ID + " ASC ";
@@ -224,30 +211,6 @@ public class HelperDB extends SQLiteOpenHelper {
         db.close();
         return pixels;
     }
-
-    public String saveProgress(){
-
-
-        return "";
-    }
-//    public List<User> getNumDrawings() {
-//        db = this.getReadableDatabase();
-//        List<User> users = new ArrayList<User>();
-//        String order = COLUMN_USER_ID + " ASC ";
-//        Cursor cursor = db.query(USER_TABLE, user_columns, null, null, null, null, order); // Cursor is our result
-//        if (cursor.getCount() > 0) {
-//            while (cursor.moveToNext()) {
-//                String username = cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME));
-//                String password = cursor.getString(cursor.getColumnIndex(COLUMN_USER_PASSWORD));
-//                long id = cursor.getLong(cursor.getColumnIndex(COLUMN_USER_ID));
-//                User user = new User(id, username, password);
-//                users.add(user);
-//            }
-//        }
-//        cursor.close();
-//        db.close();
-//        return users;
-//    }
 
     public String getPaintingColors(int paintingId) {
         String colors = null;

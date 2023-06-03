@@ -1,22 +1,17 @@
 package com.example.paintit;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends TouchDetector {
     Intent intent;
     MediaPlayer mediaPlayer;
     private long isLoggedIn = -1;
     private SharedPreferences preferences;
-    private static final String PREFS_NAME = "maPrefs";
     private long loggedIn = -1;
 
 
