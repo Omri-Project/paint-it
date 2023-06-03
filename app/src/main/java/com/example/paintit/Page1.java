@@ -1,26 +1,17 @@
 package com.example.paintit;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,8 +24,6 @@ public class Page1 extends Fragment {
     public Drawing[] drawings = new Drawing[5];
     private SharedPreferences preferences;
     private boolean soundEnabled;
-    private GridViewAdapter adapter;
-    Intent intent;
     HelperDB helperDB;
 
     public Page1() {

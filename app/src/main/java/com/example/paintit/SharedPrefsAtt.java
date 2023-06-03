@@ -5,24 +5,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.ComponentName;
-import android.content.pm.PackageManager;
 
 
 public class SharedPrefsAtt extends TouchDetector {
 
     private static final String KEY_SOUND_EFFECTS = "SoundEffects";
-    private static final String KEY_VIBRATIONS = "Vibrations";
     private static final String KEY_DARK_MODE = "DarkMode";
 
     private Switch soundEffectsSwitch;
-    private Switch vibrationsSwitch;
     private Switch darkModeSwitch;
 
     private boolean soundEffectsEnabled;

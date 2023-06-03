@@ -1,28 +1,16 @@
 package com.example.paintit;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.util.SparseIntArray;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.net.IDN;
 
 public class LoginActivity extends TouchDetector {
 
@@ -30,7 +18,6 @@ public class LoginActivity extends TouchDetector {
     EditText username, password;
     TextView create_acc, show_lv;
     HelperDB helperDB;
-    Intent intent;
     MediaPlayer mediaPlayer;
     private SharedPreferences preferences;
 
@@ -55,8 +42,6 @@ public class LoginActivity extends TouchDetector {
         helperDB = new HelperDB(getApplicationContext());
         Intent in = new Intent(LoginActivity.this , GalleryActivity.class);
         Intent in1 = new Intent(LoginActivity.this , SignUp.class);
-//        SharedPreferences preferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-//        boolean soundsEnabled = preferences.getBoolean("sounds_enabled", true);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {

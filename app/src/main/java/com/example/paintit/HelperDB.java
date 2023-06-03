@@ -1,13 +1,10 @@
 package com.example.paintit;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +29,6 @@ public class HelperDB extends SQLiteOpenHelper {
             + EMAIL + " TEXT " + ") ";
 
     private static final String[] USER_COLUMN = {USER_ID, USERNAME, PASSWORD, EMAIL};
-
 
     private static final String PAINTING = "painting";
     private static final String PAINTING_ID = "paintingId";
@@ -109,6 +105,7 @@ public class HelperDB extends SQLiteOpenHelper {
         return userId;
     }
 
+
     public long userIndex(String name, String password){
         SQLiteDatabase db = this.getReadableDatabase();
         String order = USER_ID + " ASC ";
@@ -150,10 +147,6 @@ public class HelperDB extends SQLiteOpenHelper {
         db.delete("users", selection, selectionArgs);
         db.close();
     }
-
-
-
-
 
     public void addPainting(String paintingName, String paintingPixels, String paintingColors) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -218,13 +211,6 @@ public class HelperDB extends SQLiteOpenHelper {
         db.close();
         return pixels;
     }
-
-    public String saveProgress(){
-
-
-        return "";
-    }
-
 
     public String getPaintingColors(int paintingId) {
         String colors = null;
