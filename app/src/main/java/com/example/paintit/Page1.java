@@ -2,6 +2,7 @@ package com.example.paintit;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -68,7 +69,7 @@ public class Page1 extends Fragment {
         }
 
         gridView.setAdapter(new GridViewAdapter(getActivity(), drawings, showImages));
-        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences = getActivity().getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         soundEnabled = preferences.getBoolean("SoundEffects", true);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

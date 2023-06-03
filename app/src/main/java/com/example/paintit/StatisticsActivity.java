@@ -17,8 +17,13 @@ public class StatisticsActivity extends TouchDetector {
     Button button;
     MediaPlayer mediaPlayer;
     Intent intent;
+    Intent in;
+    int time;
     TextView squares_value, time_value;
+    int id;
+    long userId;
     SharedPreferences preferences;
+    HelperDB helperDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +36,20 @@ public class StatisticsActivity extends TouchDetector {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
-
+        helperDB = new HelperDB(getApplicationContext());
         button = findViewById(R.id.home_button);
         intent = new Intent(StatisticsActivity.this, GalleryActivity.class);
         squares_value = findViewById(R.id.squares_value);
         time_value = findViewById(R.id.time_value);
-
+        in = getIntent();
+        id = in.getIntExtra("id", 0);
+        userId = preferences.getLong("connectedId", 0);
+        Development dev = helperDB.getDevelopment(id, userId);
+        time = dev.getTime();
+        int[] times = {(time/1000)%60,(time/60000)%60, time/3600000};
+        time_value.setText(""+times[2]+":"+times[1]+":"+times[0]);
+        int clickedSquares = dev.getNumClicked();
+        squares_value.setText(""+clickedSquares);
         boolean soundsEnabled = preferences.getBoolean("SoundEffects", true);
 
         if (soundsEnabled) {

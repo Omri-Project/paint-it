@@ -92,7 +92,7 @@ public class SignUp extends TouchDetector {
                 else if (helperDB.userIndex(username.getText().toString(), password.getText().toString()) == -1){
                     helperDB.addNewUser(username.getText().toString() , password.getText().toString() , email.getText().toString());
                     Toast.makeText(SignUp.this, "Successfully Added New User", Toast.LENGTH_SHORT).show();
-                    preferences = PreferenceManager.getDefaultSharedPreferences(SignUp.this);
+                    preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
                     preferences.edit().putLong("connectedId", helperDB.userIndex(username.getText().toString(), password.getText().toString())).apply();
                     startActivity(in1);
                     finish();

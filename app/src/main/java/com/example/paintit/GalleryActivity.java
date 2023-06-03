@@ -24,8 +24,6 @@ public class GalleryActivity extends TouchDetector {
     MediaPlayer mediaPlayer;
     SharedPreferences preferences;
     boolean soundsEnabled;
-    boolean vibrationEnabled;
-    Vibrator vibrator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
@@ -47,12 +45,6 @@ public class GalleryActivity extends TouchDetector {
             mediaPlayer = MediaPlayer.create(this, R.raw.button_click);
         } else {
             mediaPlayer = new MediaPlayer();
-        }
-        vibrationEnabled = preferences.getBoolean("Vibrations", true);
-        if (vibrationEnabled){
-            timeV = 100;
-        } else {
-            timeV = 0;
         }
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override

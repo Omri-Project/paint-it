@@ -33,14 +33,14 @@ public class Timer {
     public void setEnd(Date end) {
         this.end = end;
     }
-    public long diffrence (){
-        long diff = end.getTime() - start.getTime();
+    public int diffrence (){
+        int diff = (int) (end.getTime() - start.getTime());
         return diff;
     }
     public long[] format (long diff){
-        long[] time = new long[4];
+        long[] time = new long[3];
         time[0] = diff/1000;
-        time[1] = time[0]/60;
+        time[1] = (time[0]/60)%60;
         time[2] = time[0]/3600;
         return time;
     }

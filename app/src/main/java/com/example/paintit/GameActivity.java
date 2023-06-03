@@ -35,6 +35,7 @@ import com.example.paintit.StringToArrayAdapter;
 import com.example.paintit.Timer;
 import com.example.paintit.TouchDetector;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,8 +54,9 @@ public class GameActivity extends TouchDetector {
     private HorizontalScrollView colorsBar;
     private int chosenColor;
     private LinearLayout scrollBar;
-    private Timer timer;
+    private Timer timer = new Timer();
     private Date time;
+    int timePassed;
     private int id;
     private int pixelNum;
     private int clickedNum;
@@ -72,6 +74,7 @@ public class GameActivity extends TouchDetector {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        timer.setStart(new java.util.Date());
         preferences = getSharedPreferences("maPrefs", Context.MODE_PRIVATE);
         boolean darkModeEnabled = preferences.getBoolean("DarkMode", false);
         if (darkModeEnabled) {
@@ -89,6 +92,7 @@ public class GameActivity extends TouchDetector {
         userId = preferences.getLong("connectedId", 0);
         Development devData = helperDB.getDevelopment(id, userId);
         String isColoredData = devData.getColoredData();
+        timePassed = devData.getTime();
         clickedNum = devData.getNumClicked();
         pixels = StringToArrayAdapter.stringToArray(pixelData);
         colors = StringToArrayAdapter.stringToColorArray(colorsData);
@@ -242,7 +246,10 @@ public class GameActivity extends TouchDetector {
 //                            Toast.makeText(GameActivity.this, ""+clickedNum, Toast.LENGTH_SHORT).show();
                             if (clickedNum == pixelNum){
                                 Toast.makeText(GameActivity.this, "WOW OMG", Toast.LENGTH_SHORT).show();
+                                timer.setEnd(new java.util.Date());
+                                helperDB.updateDevelopment(id, userId, isColored, clickedNum, timePassed+timer.diffrence());
                                 Intent in = new Intent(GameActivity.this , StatisticsActivity.class);
+                                in.putExtra("id", id);
                                 startActivity(in);
                             }
                         }
@@ -339,7 +346,8 @@ public class GameActivity extends TouchDetector {
         }
         intent = getIntent();
         int idPainting = intent.getIntExtra("id", 0);
-        helperDB.updateDevelopment(idPainting, userId, isColored, clickedNum, 0);
+        timer.setEnd(new java.util.Date());
+        helperDB.updateDevelopment(idPainting, userId, isColored, clickedNum, timePassed+timer.diffrence());
     }
 
     private class ScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
