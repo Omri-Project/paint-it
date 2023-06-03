@@ -109,17 +109,6 @@ public class HelperDB extends SQLiteOpenHelper {
         return userId;
     }
 
-
-    public boolean ifExist(String username, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM users WHERE username=? AND password=?";
-        String[] selectionArgs = {username, password};
-        Cursor cursor = db.rawQuery(query, selectionArgs);
-        boolean exists = (cursor.getCount() > 0);
-        cursor.close();
-        db.close();
-        return exists;
-    }
     public long userIndex(String name, String password){
         SQLiteDatabase db = this.getReadableDatabase();
         String order = USER_ID + " ASC ";
