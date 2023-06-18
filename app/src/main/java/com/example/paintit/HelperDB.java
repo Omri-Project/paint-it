@@ -283,10 +283,10 @@ public class HelperDB extends SQLiteOpenHelper {
         return developments;
     }
 
-    public boolean isPaintingStarted(int paintingId) {
+    public boolean isPaintingStarted(int paintingId, long userId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String selection = "developmentPainting = ?";
-        String[] selectionArgs = { String.valueOf(paintingId) };
+        String selection = DEVELOPMENT_PAINTING+" = ? AND "+ DEVELOPMENT_USER + " =? ";
+        String[] selectionArgs = { ""+paintingId, ""+userId };
         Cursor cursor = db.query("development", null, selection, selectionArgs, null, null, null);
         boolean started = cursor.moveToFirst();
         cursor.close();
