@@ -32,11 +32,35 @@
     <TextView
         android:id="@+id/textViewLove"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:text="Created with love by Magal\u2764 &amp; Omri\u2764"
         android:textAlignment="center"
         android:textSize="14sp" />
+=======
+        android:layout_height="700dp">
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_gravity="bottom"
+            android:text="Created with love by Magal\u2764 &amp; Omri\u2764"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+
+>>>>>>> 7dbb7a0d6f80db6f424e271012dd14ccb8f8aa17
 
 
 </LinearLayout>
