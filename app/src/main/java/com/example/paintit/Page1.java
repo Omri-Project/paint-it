@@ -21,7 +21,7 @@ import android.widget.Toast;
 public class Page1 extends Fragment {
     GridView gridView;
     MediaPlayer mediaPlayer;
-    public Drawing[] drawings = new Drawing[8];
+    public Drawing[] drawings = new Drawing[10];
     private SharedPreferences preferences;
     private boolean soundEnabled;
     HelperDB helperDB;

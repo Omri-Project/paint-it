@@ -254,19 +254,34 @@ public class GameActivity extends TouchDetector {
         gestureDetector = new GestureDetector(this, new GestureListener());
 
             if (id == 1){
-                pixelNum = 146;
+                pixelNum = 142;
             }
             else if (id == 2){
-                pixelNum = 554;
+                pixelNum = 146;
             }
             else if (id == 3){
-                pixelNum = 114;
+                pixelNum = 554;
             }
             else if (id == 4){
-                pixelNum = 4105;
+                pixelNum = 114;
             }
             else if (id == 5){
+                pixelNum = 434;
+            }
+            else if (id == 6){
+                pixelNum = 4105;
+            }
+            else if (id == 7){
+                pixelNum = 303;
+            }
+            else if (id == 8){
                 pixelNum = 1117;
+            }
+            else if (id == 9){
+                pixelNum = 3943;
+            }
+            else if (id == 10){
+                pixelNum = 1163;
             }
     }
 
