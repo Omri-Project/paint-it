@@ -33,8 +33,7 @@
             android:textAlignment="center"
             android:layout_gravity="bottom"
             android:text="Created with love by Magal\u2764 &amp; Omri\u2764"
-            android:textSize="14sp"
-            />
+            android:textSize="14sp" />
 
 
     </LinearLayout>
