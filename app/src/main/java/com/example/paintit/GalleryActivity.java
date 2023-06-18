@@ -7,8 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -29,7 +33,15 @@ public class GalleryActivity extends TouchDetector {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//        int height = displayMetrics.heightPixels;
+//        int width = displayMetrics.widthPixels;
+//        LinearLayout linearLayout = findViewById(R.id.linear);
         TabLayout tabLayout = findViewById(R.id.tabs);
+//        TextView textView = findViewById(R.id.textViewLove);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, height-textView.getHeight()-tabLayout.getHeight());
+//        linearLayout.setLayoutParams(params);
         ViewPager2 viewPager2 = findViewById(R.id.view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(this);
         viewPager2.setAdapter(adapter);
