@@ -286,7 +286,7 @@ public class HelperDB extends SQLiteOpenHelper {
     public boolean isPaintingStarted(int paintingId, long userId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selection = DEVELOPMENT_PAINTING+" = ? AND "+ DEVELOPMENT_USER + " =? ";
-        String[] selectionArgs = { ""+paintingId, ""+userId };
+        String[] selectionArgs = { ""+paintingId, ""+userId};
         Cursor cursor = db.query("development", null, selection, selectionArgs, null, null, null);
         boolean started = cursor.moveToFirst();
         cursor.close();
@@ -328,7 +328,7 @@ public class HelperDB extends SQLiteOpenHelper {
         values.put(DEVELOPMENT_CLICKED, clicked);
         values.put(DEVELOPMENT_TIME, time);
         String selection = DEVELOPMENT_PAINTING + " = ? AND " + DEVELOPMENT_USER + " = ? ";
-        String[] selectionArgs = {String.valueOf(paintingId), String.valueOf(userId)};
+        String[] selectionArgs = {""+paintingId, ""+userId};
         db.update(DEVELOPMENT, values, selection, selectionArgs);
         db.close();
     }
@@ -336,7 +336,7 @@ public class HelperDB extends SQLiteOpenHelper {
     public void deleteDevelopment(int userId) {
         SQLiteDatabase db = this.getWritableDatabase();
         String selection = "developmentPainting = ?";
-        String[] selectionArgs = {String.valueOf(userId)};
+        String[] selectionArgs = {""+userId};
         db.delete(DEVELOPMENT, selection, selectionArgs);
         db.close();
     }
