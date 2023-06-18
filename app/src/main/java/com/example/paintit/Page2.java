@@ -21,7 +21,7 @@ import android.widget.Toast;
 public class Page2 extends Fragment {
     GridView gridView;
     MediaPlayer mediaPlayer;
-    public Drawing[] drawings = new Drawing[5];
+    public Drawing[] drawings = new Drawing[8];
     private SharedPreferences preferences;
     private boolean soundEnabled;
     HelperDB helperDB;
@@ -65,7 +65,6 @@ public class Page2 extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 if (helperDB.isPaintingStarted(drawings[position].getId())) {
-                    Toast.makeText(getActivity(), "" + drawings[position].getId(), Toast.LENGTH_SHORT).show();
                     Intent intent1 = new Intent(getActivity(), GameActivity.class);
                     playAudio();
                     intent1.putExtra("id", drawings[position].getId());

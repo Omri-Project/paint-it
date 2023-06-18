@@ -95,7 +95,7 @@ public class GalleryActivity extends TouchDetector {
         } else {
             mediaPlayer.start();
             releaseInstance();
-            Toast.makeText(GalleryActivity.this,"This option is unavailable right now",Toast.LENGTH_SHORT).show();
+            Toast.makeText(GalleryActivity.this,"This app is perfect. Shame on you!",Toast.LENGTH_SHORT).show();
         }
         return true;
     }

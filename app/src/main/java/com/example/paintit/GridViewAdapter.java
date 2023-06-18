@@ -12,7 +12,7 @@ public class GridViewAdapter extends BaseAdapter {
     private final Drawing[] drawings;
     private final boolean[] showImages;
     private final LayoutInflater inflater;
-    private final int[] drawables = {R.drawable.duck, R.drawable.canvas_pixle_art, R.drawable.mushroom, R.drawable.frog, R.drawable.nyancat};
+    private final int[] drawables = {R.drawable.duck, R.drawable.canvas_pixle_art, R.drawable.mushroom, R.drawable.frog, R.drawable.star, R.drawable.nyancat, R.drawable.luxompious, R.drawable.apple};
 
     public GridViewAdapter(Context context, Drawing[] drawings, boolean[] showImages) {
         this.context = context;
